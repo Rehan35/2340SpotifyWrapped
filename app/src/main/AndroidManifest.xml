@@ -20,6 +20,9 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
                 <data android:host="auth" android:scheme="spotify-wrapped-2340"/>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
         </activity>
     </application>
