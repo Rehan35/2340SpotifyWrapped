@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,16 +52,18 @@ public class MainActivity extends AppCompatActivity {
         codeTextView = (TextView) findViewById(R.id.code_text_view);
         profileTextView = (TextView) findViewById(R.id.response_text_view);
 
+
         // Initialize the buttons
         Button tokenBtn = (Button) findViewById(R.id.token_btn);
         Button codeBtn = (Button) findViewById(R.id.code_btn);
         Button profileBtn = (Button) findViewById(R.id.profile_btn);
 
-        // Set the click listeners for the buttons
 
-        tokenBtn.setOnClickListener((v) -> {
-            getToken();
-        });
+                // Set the click listeners for the buttons
+
+                tokenBtn.setOnClickListener((v) -> {
+                    getToken();
+                });
 
         codeBtn.setOnClickListener((v) -> {
             getCode();
