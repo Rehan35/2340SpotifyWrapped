@@ -90,8 +90,8 @@ public class Register_Activity extends AppCompatActivity {
 
                                 } else {
                                     // If sign in fails, display a message to the user.
-                                    Toast.makeText(Register_Activity.this, "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Register_Activity.this, "You may already have an account, try logging-in.",
+                                            Toast.LENGTH_LONG).show();
                                 }
                             }
                         });
