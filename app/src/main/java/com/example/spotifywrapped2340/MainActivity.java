@@ -133,9 +133,9 @@ public class MainActivity extends AppCompatActivity {
             } else if (response.getAccessToken() == null) {
                 Log.d("FAILURE", "access token is null");
             } else {
-                Intent intent = new Intent(MainActivity.this, Settings.class);
-                startActivity(intent);
-                Log.d("SUCCESS", response.getAccessToken());
+//                Intent intent = new Intent(MainActivity.this, Settings.class);
+//                startActivity(intent);
+//                Log.d("SUCCESS", response.getAccessToken());
             }
 //            mAccessToken = response.getAccessToken();
 //            setTextAsync(mAccessToken, tokenTextView);
