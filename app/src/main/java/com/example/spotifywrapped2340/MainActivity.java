@@ -53,14 +53,15 @@ public class MainActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(this);
         DatabaseReference mDataBase = FirebaseDatabase.getInstance().getReference();
 
-//        TextView wrappedTextView = (TextView) findViewById(R.id.wrapped_text);
-//        Button connectWithSpotify = (Button) findViewById(R.id.connect_with_spotify_button);
-//        connectWithSpotify.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                getToken();
-//            }
-//        });
+        Button signUpButton = (Button) findViewById(R.id.signup_button);
+
+        signUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent connectWithSpotify = new Intent(MainActivity.this, SpotifyLoginActivity.class);
+                startActivity(connectWithSpotify);
+            }
+        });
 
 //         Initialize the views
 //        tokenTextView = (TextView) findViewById(R.id.token_text_view);
@@ -133,9 +134,9 @@ public class MainActivity extends AppCompatActivity {
             } else if (response.getAccessToken() == null) {
                 Log.d("FAILURE", "access token is null");
             } else {
-//                Intent intent = new Intent(MainActivity.this, Settings.class);
-//                startActivity(intent);
-//                Log.d("SUCCESS", response.getAccessToken());
+                Intent intent = new Intent(MainActivity.this, SpotifyLoginActivity.class);
+                startActivity(intent);
+                Log.d("SUCCESS", response.getAccessToken());
             }
 //            mAccessToken = response.getAccessToken();
 //            setTextAsync(mAccessToken, tokenTextView);
