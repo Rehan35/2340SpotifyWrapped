@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/final_main_background_image"
     tools:context=".MainActivity"
+    android:id="@+id/login_in_layout"
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -80,15 +81,18 @@
                 android:drawablePadding="8dp"
                 android:background="@drawable/edit_text_bkg"/>
             <Button
-                android:id="@+id/signup_button"
+                android:id="@+id/login_button"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:text="@string/sign_up_button"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:backgroundTint="@color/spotifyGreen"
-                app:cornerRadius="10dp"/>
+                android:text="@string/create_account"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:cornerRadius="10dp" />
 
         </LinearLayout>
 

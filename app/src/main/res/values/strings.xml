@@ -6,4 +6,6 @@
     <string name="password_hint">Password</string>
     <string name="confirm_password_hint">Confirm Password</string>
     <string name="sign_up_button">Sign Up</string>
+    <string name="sign_in_button">Sign In</string>
+    <string name="create_account">Create Account</string>
 </resources>
