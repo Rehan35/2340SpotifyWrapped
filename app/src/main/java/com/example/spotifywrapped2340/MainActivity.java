@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.spotifywrapped2340.Firebase.FirebaseManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
@@ -60,14 +61,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_login_page);
-//        FirebaseApp.initializeApp(this);
+////        FirebaseApp.initializeApp(this);
 //        DatabaseReference mDataBase = FirebaseDatabase.getInstance().getReference();
-
         Button signInButton = (Button) findViewById(R.id.login_button);
 
         signUpEmail = (TextView) findViewById(R.id.signup_email);
         signUpPassword = (TextView) findViewById(R.id.signup_password);
-//        signUpConfirmPassword = (TextView) findViewById(R.id.confirm_password);
+        signUpConfirmPassword = (TextView) findViewById(R.id.confirm_password);
 
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,31 +76,26 @@ public class MainActivity extends AppCompatActivity {
                 String email, password, confirmPassword;
                 email = String.valueOf(signUpEmail.getText());
                 password = String.valueOf(signUpPassword.getText());
-//                confirmPassword = String.valueOf(signUpConfirmPassword.getText());
-
-//                else if (confirmPassword.isEmpty()) {
-//                    Toast.makeText(MainActivity.this, "Please Confirm your Password", Toast.LENGTH_SHORT).show();
-//                } else if (!password.equals(confirmPassword)) {
-//                    Toast.makeText(MainActivity.this, "Passwords Don't Match", Toast.LENGTH_SHORT).show();
-//                }
+                confirmPassword = String.valueOf(signUpConfirmPassword.getText());
 
                 if (email.isEmpty()) {
                     Toast.makeText(MainActivity.this, "Please Enter an Email", Toast.LENGTH_SHORT).show();
                 } else if (password.isEmpty()) {
                     Toast.makeText(MainActivity.this, "Please Enter an Password", Toast.LENGTH_SHORT).show();
 
+                } else if (confirmPassword.isEmpty()) {
+                    Toast.makeText(MainActivity.this, "Please Confirm your Password", Toast.LENGTH_SHORT).show();
+                } else if (!password.equals(confirmPassword)) {
+                    Toast.makeText(MainActivity.this, "Passwords Don't Match", Toast.LENGTH_SHORT).show();
                 } else {
                     mAuth.createUserWithEmailAndPassword(email, password)
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
-                                        Toast.makeText(MainActivity.this, "Account Created",
-                                                Toast.LENGTH_SHORT).show();
+                                        FirebaseManager.getInstance(getApplicationContext()).addUserToDatabase(mAuth.getUid());
                                         Intent intent = new Intent(getApplicationContext(), SpotifyLoginActivity.class);
                                         startActivity(intent);
-                                        Log.d("User ID", mAuth.getUid());
-                                        Log.d("Person", mAuth.getCurrentUser().toString());
                                         finish();
                                     } else {
                                         // If sign in fails, display a message to the user.
