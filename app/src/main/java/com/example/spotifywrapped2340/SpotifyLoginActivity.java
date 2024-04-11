@@ -76,46 +76,46 @@ public class SpotifyLoginActivity extends AppCompatActivity {
         }
     }
 
-    public void getAccessRefreshToken() {
-        OkHttpClient client = new OkHttpClient();
-
-        // Build the request body
-        RequestBody requestBody = new FormBody.Builder()
-                .add("grant_type", "authorization_code")
-                .add("code", code)
-                .add("redirect_uri", REDIRECT_URI)
-                .add("client_id", CLIENT_ID)
-                .add("client_secret", CLIENT_SECRET)
-                .add("scope", "user-read-private user-read-email offline_access")
-                .build();
-
-        // Build the request
-        Request request = new Request.Builder()
-                .url("https://accounts.spotify.com/api/token")
-                .addHeader("Content-Type", "application/x-www-form-urlencoded")
-                .post(requestBody)
-                .build();
-
-        // Make the request asynchronously
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-
-                // Get the response body as a JSON string
-                String responseBody = response.body().string();
-                System.out.println(responseBody);
-
-                // Parse the JSON response as needed
-                // Example: JSONObject json = new JSONObject(responseBody);
-            }
-
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-            }
-        });
-    }
+//    public void getAccessRefreshToken() {
+//        OkHttpClient client = new OkHttpClient();
+//
+//        // Build the request body
+//        RequestBody requestBody = new FormBody.Builder()
+//                .add("grant_type", "authorization_code")
+//                .add("code", code)
+//                .add("redirect_uri", REDIRECT_URI)
+//                .add("client_id", CLIENT_ID)
+//                .add("client_secret", CLIENT_SECRET)
+//                .add("scope", "user-read-private user-read-email offline_access")
+//                .build();
+//
+//        // Build the request
+//        Request request = new Request.Builder()
+//                .url("https://accounts.spotify.com/api/token")
+//                .addHeader("Content-Type", "application/x-www-form-urlencoded")
+//                .post(requestBody)
+//                .build();
+//
+//        // Make the request asynchronously
+//        client.newCall(request).enqueue(new Callback() {
+//            @Override
+//            public void onResponse(Call call, Response response) throws IOException {
+//                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+//
+//                // Get the response body as a JSON string
+//                String responseBody = response.body().string();
+//                System.out.println(responseBody);
+//
+//                // Parse the JSON response as needed
+//                // Example: JSONObject json = new JSONObject(responseBody);
+//            }
+//
+//            @Override
+//            public void onFailure(Call call, IOException e) {
+//                e.printStackTrace();
+//            }
+//        });
+//    }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
