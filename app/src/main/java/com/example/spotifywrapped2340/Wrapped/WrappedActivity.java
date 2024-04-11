@@ -3,12 +3,14 @@ package com.example.spotifywrapped2340.Wrapped;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.spotifywrapped2340.R;
+import com.example.spotifywrapped2340.UserInformation;
 
 import java.util.ArrayList;
 
@@ -22,6 +24,8 @@ public class WrappedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wrapped);
 
+        TextView introName = findViewById(R.id.heyNameTitle);
+        introName.setText("Hey, " + UserInformation.getName());
 
         this.viewPager = findViewById(R.id.view_pager);
         loadCards();
