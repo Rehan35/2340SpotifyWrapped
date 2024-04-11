@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="confirm_password_width">300dp</dimen>
+    <dimen name="confirm_password_height">50dp</dimen>
+    <dimen name="confirm_password_drawable_padding">8dp</dimen>
+    <dimen name="confirm_password_marginTop">20dp</dimen>
+</resources>
