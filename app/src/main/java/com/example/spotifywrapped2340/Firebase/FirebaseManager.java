@@ -7,6 +7,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.example.spotifywrapped2340.MainActivity;
+import com.example.spotifywrapped2340.ObjectStructures.SpotifyUser;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
@@ -54,6 +55,34 @@ public class FirebaseManager {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         showToast("Failed to Create Account");
+                    }
+                });
+    }
+
+    public void populateUserSpotifyData(SpotifyUser spotifyUser) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference usersCollection = db.collection("Users");
+
+        Map<String, Object> user = new HashMap<>();
+        user.put("uID", spotifyUser.getUserId());
+        user.put("profileImageUrl", spotifyUser.getProfileImageUrl());
+        user.put("followers", spotifyUser.getFollowers());
+        user.put("refreshAccessToken", spotifyUser.getRefreshToken());
+        user.put("email", spotifyUser.getEmail());
+        user.put("spotifyId", spotifyUser.getUserId());
+
+        usersCollection.document(spotifyUser.getUserId()).set(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        showToast("Spotify Loaded Successfully");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("Firebase Populate Error", e.toString());
+                        showToast("Failed to Authenticate Spotify");
                     }
                 });
     }

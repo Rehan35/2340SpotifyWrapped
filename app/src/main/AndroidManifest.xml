@@ -13,40 +13,25 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SpotifyWrapped2340">
         <activity
-            android:name=".Register_Activity"
+            android:name=".WrappedDataActivity"
+            android:exported="true">
+            <!--            <intent-filter>-->
+            <!--&lt;!&ndash;                <action android:name="android.intent.action.MAIN" />&ndash;&gt;-->
+            <!--            </intent-filter>-->
+        </activity>
+        <activity
+            android:name=".RegisterActivity"
             android:exported="true">
 <!--            <intent-filter>-->
 <!--&lt;!&ndash;                <action android:name="android.intent.action.MAIN" />&ndash;&gt;-->
 <!--            </intent-filter>-->
         </activity>
         <activity
-            android:name=".Login_Activity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-<!--                <category android:name="android.intent.category" />-->
-
-<!--                <data-->
-<!--                    android:host="auth"-->
-<!--                    android:scheme="spotify-wrapped-2340" />-->
-
-                <action android:name="android.intent.action.VIEW" />
-
-<!--                <category android:name="android.intent.category.DEFAULT" />-->
-<!--                <category android:name="android.intent.category.BROWSABLE" />-->
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".SpotifyLoginActivity"
-            android:exported="true">
-            <intent-filter>
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-
                 <category android:name="android.intent.category" />
 
                 <data
@@ -58,6 +43,28 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--&lt;!&ndash;                <category android:name="android.intent.category" />&ndash;&gt;-->
+
+<!--&lt;!&ndash;                <data&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:host="auth"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:scheme="spotify-wrapped-2340" />&ndash;&gt;-->
+
+<!--                <action android:name="android.intent.action.VIEW" />-->
+
+<!--&lt;!&ndash;                <category android:name="android.intent.category.DEFAULT" />&ndash;&gt;-->
+<!--&lt;!&ndash;                <category android:name="android.intent.category.BROWSABLE" />&ndash;&gt;-->
+<!--            </intent-filter>-->
+        </activity>
+        <activity
+            android:name=".SpotifyLoginActivity"
+            android:exported="true">
         </activity>
     </application>
 
