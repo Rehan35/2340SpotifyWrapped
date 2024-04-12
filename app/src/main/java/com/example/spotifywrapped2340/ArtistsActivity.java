@@ -14,7 +14,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.bumptech.glide.Glide;
 import com.example.spotifywrapped2340.ObjectStructures.Artist;
+import com.example.spotifywrapped2340.SpotifyDataManagers.SpotifyManager;
 import com.example.spotifywrapped2340.UIHelpers.ProfileGridItem;
 
 import org.checkerframework.checker.units.qual.A;
@@ -51,10 +53,9 @@ public class ArtistsActivity extends AppCompatActivity {
     }
 
     private void updateArtistCards(Artist[] artists) {
-        for (int i = 0; i < artists.length; i++) {
+        for (int i = 0; i < 5; i++) {
 
-            Artist artist = artists[i];
-
+            Artist artist = SpotifyManager.topArtists.get(i);
             // Inflate a new instance of your grid item layout
             LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
             View artistCardView = inflater.inflate(R.layout.artist_card_view, relativelayout, false);
@@ -71,7 +72,7 @@ public class ArtistsActivity extends AppCompatActivity {
 
             artistName.setId(R.id.artist_name2);
 
-
+            Glide.with(ArtistsActivity.this).load(artist.getArtistImageUrl()).into(artistImage);
 
             TextView artistPopularity = (TextView) artistCardView.findViewById(R.id.popularity_score2);
 

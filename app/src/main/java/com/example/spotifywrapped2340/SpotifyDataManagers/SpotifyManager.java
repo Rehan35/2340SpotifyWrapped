@@ -40,7 +40,7 @@ public class SpotifyManager {
 
     public static final String CLIENT_ID = "3f2eac4dbbb0498194d8b5d955949c1a";
     public static final String REDIRECT_URI = "spotify-wrapped-2340://auth";
-    private static String mAccessToken = "BQBTZS7L5lQEK_lMG_vbaw4vLFx0gAoZilzLlOXwWnQ86c-W7Lnl9z2mnj0pRlCJbN8wNYh9QpCFDGwCFiMasSg9oJSMP1WbNHz9GYSUGDYXDEd2UfaA7aFVwDwNGrIAjkdp321PZK58Nyjk_t8oSIvIJ99isDdzlx0BQYasP68xPvVzURbG5njE_UmsuP7YWWtnoDDPuWBj4hWbgZXkLGmRchcwE9wDtX54Uk-tf-t8FIE";
+    private static String mAccessToken = "BQAKcHbszfzRFDaaUkRpP0g6QASYEAa0Exz7NoCowFrjmFwAij0wsQ4V359JsPq0TtzeOoq0aDdHIrQQsEiapzx2p3NOhczUwYRI_gl4pU1ahZ2efWO3Y5tG5b0mpVglnBuWZzs8BQau3FumeCERV0J2ZNZ_gikYcGI_RP3wsS-rKARI46o3ZLeBTypqYgT3SPCg7DbTou2zwF418HaH_6fXEtKo1pVYl77Jqz8rx7Rc4H0";
 
     private static String mAccessCode;
     private final static OkHttpClient mOkHttpClient = new OkHttpClient();

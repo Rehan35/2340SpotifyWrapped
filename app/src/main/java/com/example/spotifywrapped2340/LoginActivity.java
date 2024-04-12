@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
                     String name = SpotifyManager.getInstance(getApplicationContext()).topArtists.get(0).getName();
                     String url = SpotifyManager.getInstance(getApplicationContext()).topArtists.get(0).getArtistImageUrl();
                     Log.d("URL!!", url);
-                    Intent intent = new Intent(getApplicationContext(), WrappedDataActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
                     startActivity(intent);
                     finish();
                 }
