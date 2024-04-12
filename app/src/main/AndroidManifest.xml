@@ -68,26 +68,19 @@
         <activity
             android:name=".MainActivity"
             android:exported="true">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--&lt;!&ndash;                <category android:name="android.intent.category" />&ndash;&gt;-->
-
-<!--&lt;!&ndash;                <data&ndash;&gt;-->
-<!--&lt;!&ndash;                    android:host="auth"&ndash;&gt;-->
-<!--&lt;!&ndash;                    android:scheme="spotify-wrapped-2340" />&ndash;&gt;-->
-
-<!--                <action android:name="android.intent.action.VIEW" />-->
-
-<!--&lt;!&ndash;                <category android:name="android.intent.category.DEFAULT" />&ndash;&gt;-->
-<!--&lt;!&ndash;                <category android:name="android.intent.category.BROWSABLE" />&ndash;&gt;-->
-<!--            </intent-filter>-->
         </activity>
         <activity
             android:name=".SpotifyLoginActivity"
             android:exported="true">
         </activity>
-
+        <activity
+            android:name=".TracksActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".ArtistsActivity"
+            android:exported="true">
+        </activity>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

@@ -1,9 +1,11 @@
 package com.example.spotifywrapped2340;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.GridLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,12 +37,12 @@ public class ProfileActivity extends AppCompatActivity {
 
         gridLayout = (GridLayout) findViewById(R.id.gridLayout);
         ProfileGridItem[] gridItems = new ProfileGridItem[]{
-                new ProfileGridItem("Tracks", R.drawable.tracks_placeholder_card_image),
-                new ProfileGridItem("Artists", R.drawable.artists_placeholder_card),
-                new ProfileGridItem("Playlists", R.drawable.playlists_placeholder_card),
-                new ProfileGridItem("Lyrics", R.drawable.lyrics_placeholder_card),
-                new ProfileGridItem("For You", R.drawable.foryou_placeholder_card),
-                new ProfileGridItem("Browse", R.drawable.browse_placeholder_card)
+                new ProfileGridItem("Tracks", R.drawable.tracks_placeholder_card_image, new TracksActivity()),
+                new ProfileGridItem("Artists", R.drawable.artists_placeholder_card, new ArtistsActivity()),
+                new ProfileGridItem("Playlists", R.drawable.playlists_placeholder_card, new TracksActivity()),
+                new ProfileGridItem("Lyrics", R.drawable.lyrics_placeholder_card, new TracksActivity()),
+                new ProfileGridItem("For You", R.drawable.foryou_placeholder_card, new TracksActivity()),
+                new ProfileGridItem("Browse", R.drawable.browse_placeholder_card, new TracksActivity())
         };
 
         updateGridLayout(gridItems);
@@ -57,11 +59,20 @@ public class ProfileActivity extends AppCompatActivity {
             View itemView = inflater.inflate(R.layout.item_layout, gridLayout, false);
 
             // Bind data to the layout
-            ImageView imageView = itemView.findViewById(R.id.card_image);
+            ImageButton imageButton = (ImageButton) itemView.findViewById(R.id.card_image);
             TextView textView = itemView.findViewById(R.id.card_text);
 
-            imageView.setImageDrawable(ContextCompat.getDrawable(this, item.getImageResource()));
+            imageButton.setImageDrawable(ContextCompat.getDrawable(this, item.getImageResource()));
             textView.setText(item.getText());
+
+            imageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(), item.getActivity().getClass());
+                    startActivity(intent);
+                    finish();
+                }
+            });
 
             // Add the inflated view to the GridLayout
             gridLayout.addView(itemView);

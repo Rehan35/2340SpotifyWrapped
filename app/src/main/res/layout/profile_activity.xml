@@ -13,6 +13,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ProfileActivity"
+    android:background="@drawable/profile_activity_gradient"
     >
 
     <TextView
