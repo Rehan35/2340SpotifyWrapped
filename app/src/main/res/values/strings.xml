@@ -8,6 +8,7 @@
     <string name="sign_up_button">Sign Up</string>
     <string name="sign_in_button">Sign In</string>
     <string name="create_account">Create Account</string>
+    <string name="profile_text">Profile</string>
     <string name="top_album">Top Album</string>
     <string name="top_artist">Top Artist</string>
 </resources>

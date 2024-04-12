@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent">-->
+
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/profile_activity_layout"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ProfileActivity"
+    >
+
+    <TextView
+        android:id="@+id/profile_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/akaya_telivigala"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/profile_text"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:layout_marginStart="10dp"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/baseline_menu_24"
+        android:backgroundTint="@android:color/transparent"/>
+
+    <ImageView
+        android:id="@+id/profile_image_view"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@drawable/test_profile_image"
+        android:scaleType="centerCrop"
+        android:clipToOutline="true"
+        android:layout_below="@+id/profile_text"
+        android:background="@drawable/profile_circle_clip_shape"
+        android:layout_marginStart="30dp"
+        />
+    <RelativeLayout
+        android:id="@+id/profile_info"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_below="@+id/profile_text"
+        android:layout_toEndOf="@+id/profile_image_view"
+        >
+
+        <TextView
+            android:id="@+id/display_name_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/akaya_telivigala"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:text="Rehan"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/display_name_text"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="-15dp"
+            android:fontFamily="@font/akaya_telivigala"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:text="4 Followers"/>
+        <ImageButton
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:src="@drawable/spotify_name_logo"
+            android:layout_marginStart="150dp"
+            android:backgroundTint="@android:color/transparent"/>
+    </RelativeLayout>
+
+    <GridLayout
+        android:id="@+id/gridLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profile_info"
+        android:columnCount="2"
+        android:rowCount="3"
+        android:alignmentMode="alignMargins"
+        android:columnOrderPreserved="true"
+        android:padding="16dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginHorizontal="30dp"/>
+<!--        <RelativeLayout-->
+<!--            android:layout_width="124dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical"-->
+<!--            android:layout_marginEnd="70dp">-->
+
+<!--            <ImageButton-->
+<!--                android:id="@+id/card_image"-->
+<!--                android:layout_width="124dp"-->
+<!--                android:layout_height="132dp"-->
+<!--                android:scaleType="centerCrop"-->
+<!--                android:src="@drawable/tracks_placeholder_card_image"-->
+<!--                android:clipToOutline="true"-->
+<!--                android:background="@drawable/rounded_corner_background"/>-->
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Tracks"-->
+<!--                android:layout_below="@+id/card_image"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:fontFamily="@font/akaya_telivigala"-->
+<!--                android:textSize="20sp"/>-->
+<!--        </RelativeLayout>-->
+<!--        <RelativeLayout-->
+<!--            android:layout_width="124dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical"-->
+<!--            android:layout_marginEnd="70dp">-->
+
+<!--            <ImageButton-->
+<!--                android:id="@+id/card_image"-->
+<!--                android:layout_width="124dp"-->
+<!--                android:layout_height="132dp"-->
+<!--                android:scaleType="centerCrop"-->
+<!--                android:src="@drawable/artists_placeholder_card"-->
+<!--                android:clipToOutline="true"-->
+<!--                android:background="@drawable/rounded_corner_background"/>-->
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Artists"-->
+<!--                android:layout_below="@+id/card_image"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:fontFamily="@font/akaya_telivigala"-->
+<!--                android:textSize="20sp"/>-->
+<!--        </RelativeLayout>-->
+<!--        <RelativeLayout-->
+<!--            android:layout_width="124dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical"-->
+<!--            android:layout_marginEnd="70dp">-->
+
+<!--            <ImageButton-->
+<!--                android:id="@+id/card_image"-->
+<!--                android:layout_width="124dp"-->
+<!--                android:layout_height="132dp"-->
+<!--                android:scaleType="centerCrop"-->
+<!--                android:src="@drawable/playlists_placeholder_card"-->
+<!--                android:clipToOutline="true"-->
+<!--                android:background="@drawable/rounded_corner_background"/>-->
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Playlists"-->
+<!--                android:layout_below="@+id/card_image"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:fontFamily="@font/akaya_telivigala"-->
+<!--                android:textSize="20sp"/>-->
+<!--        </RelativeLayout>-->
+<!--        <RelativeLayout-->
+<!--            android:layout_width="124dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical"-->
+<!--            android:layout_marginEnd="70dp">-->
+
+<!--            <ImageButton-->
+<!--                android:id="@+id/card_image"-->
+<!--                android:layout_width="124dp"-->
+<!--                android:layout_height="132dp"-->
+<!--                android:scaleType="centerCrop"-->
+<!--                android:src="@drawable/lyrics_placeholder_card"-->
+<!--                android:clipToOutline="true"-->
+<!--                android:background="@drawable/rounded_corner_background"/>-->
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Lyrics"-->
+<!--                android:layout_below="@+id/card_image"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:fontFamily="@font/akaya_telivigala"-->
+<!--                android:textSize="20sp"/>-->
+<!--        </RelativeLayout>-->
+<!--        <RelativeLayout-->
+<!--            android:layout_width="124dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical"-->
+<!--            android:layout_marginEnd="70dp">-->
+
+<!--            <ImageButton-->
+<!--                android:id="@+id/card_image"-->
+<!--                android:layout_width="124dp"-->
+<!--                android:layout_height="132dp"-->
+<!--                android:scaleType="centerCrop"-->
+<!--                android:src="@drawable/foryou_placeholder_card"-->
+<!--                android:clipToOutline="true"-->
+<!--                android:background="@drawable/rounded_corner_background"/>-->
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="For You"-->
+<!--                android:layout_below="@+id/card_image"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:fontFamily="@font/akaya_telivigala"-->
+<!--                android:textSize="20sp"/>-->
+<!--        </RelativeLayout>-->
+<!--        <RelativeLayout-->
+<!--            android:layout_width="124dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical"-->
+<!--            android:layout_marginEnd="70dp">-->
+
+<!--            <ImageButton-->
+<!--                android:id="@+id/card_image"-->
+<!--                android:layout_width="124dp"-->
+<!--                android:layout_height="132dp"-->
+<!--                android:scaleType="centerCrop"-->
+<!--                android:src="@drawable/browse_placeholder_card"-->
+<!--                android:clipToOutline="true"-->
+<!--                android:background="@drawable/rounded_corner_background"/>-->
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Browse"-->
+<!--                android:layout_below="@+id/card_image"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:fontFamily="@font/akaya_telivigala"-->
+<!--                android:textSize="20sp"/>-->
+<!--        </RelativeLayout>-->
+
+</RelativeLayout>

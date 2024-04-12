@@ -5,4 +5,5 @@
     <color name="spotifyGreen">#1DB954</color>
     <color name="spotifyBlack">#191414</color>
     <color name="spotifyOffGreen">#2C6B21</color>
+    <color name="clear">#F4FAFC</color>
 </resources>
