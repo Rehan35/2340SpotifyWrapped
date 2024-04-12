@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.spotifywrapped2340.Firebase.FirebaseManager;
 import com.example.spotifywrapped2340.ObjectStructures.SpotifyUser;
 import com.example.spotifywrapped2340.SpotifyDataManagers.JsonReader;
+import com.example.spotifywrapped2340.SpotifyDataManagers.SpotifyManager;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -47,6 +48,7 @@ public class SpotifyLoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private final OkHttpClient mOkHttpClient = new OkHttpClient();
+    private SpotifyManager spotifyManager;
     private Call mCall;
 
     @Override
@@ -55,6 +57,7 @@ public class SpotifyLoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_connect_to_spotify);
 
         mAuth = FirebaseAuth.getInstance();
+        spotifyManager = SpotifyManager.getInstance(getApplicationContext());
 
         TextView wrappedTextView = (TextView) findViewById(R.id.wrapped_text);
         Button connectWithSpotify = (Button) findViewById(R.id.connect_with_spotify_button);
@@ -68,54 +71,13 @@ public class SpotifyLoginActivity extends AppCompatActivity {
     }
 
     public void getToken() {
-        final AuthorizationRequest request = getAuthenticationRequest(AuthorizationResponse.Type.TOKEN);
+        final AuthorizationRequest request = SpotifyManager.getAuthenticationRequest(AuthorizationResponse.Type.TOKEN);
         try {
             AuthorizationClient.openLoginActivity(SpotifyLoginActivity.this, 0, request);
         } catch (Exception e) {
             Log.d("TOKEN ERROR", e.toString());
         }
     }
-
-//    public void getAccessRefreshToken() {
-//        OkHttpClient client = new OkHttpClient();
-//
-//        // Build the request body
-//        RequestBody requestBody = new FormBody.Builder()
-//                .add("grant_type", "authorization_code")
-//                .add("code", code)
-//                .add("redirect_uri", REDIRECT_URI)
-//                .add("client_id", CLIENT_ID)
-//                .add("client_secret", CLIENT_SECRET)
-//                .add("scope", "user-read-private user-read-email offline_access")
-//                .build();
-//
-//        // Build the request
-//        Request request = new Request.Builder()
-//                .url("https://accounts.spotify.com/api/token")
-//                .addHeader("Content-Type", "application/x-www-form-urlencoded")
-//                .post(requestBody)
-//                .build();
-//
-//        // Make the request asynchronously
-//        client.newCall(request).enqueue(new Callback() {
-//            @Override
-//            public void onResponse(Call call, Response response) throws IOException {
-//                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-//
-//                // Get the response body as a JSON string
-//                String responseBody = response.body().string();
-//                System.out.println(responseBody);
-//
-//                // Parse the JSON response as needed
-//                // Example: JSONObject json = new JSONObject(responseBody);
-//            }
-//
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//                e.printStackTrace();
-//            }
-//        });
-//    }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -129,65 +91,65 @@ public class SpotifyLoginActivity extends AppCompatActivity {
 //            Intent intent = new Intent(SpotifyLoginActivity.this, SpotifyLoginActivity.class);
 //            startActivity(intent);
             Log.d("TOKEN SUCCESS", response.getAccessToken());
-            mAccessToken = response.getAccessToken();
-            getUserProfile();
+            SpotifyManager.setAccessToken(response.getAccessToken());
+            SpotifyManager.getUserProfile(this);
         }
     }
 
-    private AuthorizationRequest getAuthenticationRequest(AuthorizationResponse.Type type) {
-        return new AuthorizationRequest.Builder(CLIENT_ID, type, getRedirectUri().toString())
-                .setShowDialog(false)
-                .setScopes(new String[] { "user-read-email" }) // <--- Change the scope of your requested token here
-                .setCampaign("your-campaign-token")
-                .build();
-    }
-
-    public void getUserProfile() {
-        if (mAccessToken == null) {
-            Toast.makeText(this, "You need to get an access token first!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // Create a request to get the user profile
-        final Request request = new Request.Builder()
-                .url("https://api.spotify.com/v1/me")
-                .addHeader("Authorization", "Bearer " + mAccessToken)
-                .build();
-
-        cancelCall();
-        mCall = mOkHttpClient.newCall(request);
-
-        mCall.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.d("HTTP", "Failed to fetch data: " + e);
-                Toast.makeText(SpotifyLoginActivity.this, "Failed to fetch data, watch Logcat for more details",
-                        Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                try {
-
-                    String responseString = response.body().string();
-
-                    Log.d("Spotify Data", responseString);
-
-                    SpotifyUser user = new SpotifyUser();
-                    user.populateUserData(responseString, mAuth.getUid());
-                    FirebaseManager.getInstance(getApplicationContext()).populateUserSpotifyData(user);
-
-                    Intent intent = new Intent(getApplicationContext(), WrappedDataActivity.class);
-                    startActivity(intent);
-                    finish();
-                } catch (Exception e) {
-                    Log.d("JSON", "Failed to parse data: " + e);
-//                    Toast.makeText(SpotifyLoginActivity.this, "Failed to parse data, watch Logcat for more details",
-//                            Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
+//    private AuthorizationRequest getAuthenticationRequest(AuthorizationResponse.Type type) {
+//        return new AuthorizationRequest.Builder(CLIENT_ID, type, getRedirectUri().toString())
+//                .setShowDialog(false)
+//                .setScopes(new String[] { "user-read-email", "streaming", "playlist-read-private", "playlist-read-collabortive", "user-follow-read", "user-top-read", "user-library-read", }) // <--- Change the scope of your requested token here
+//                .setCampaign("your-campaign-token")
+//                .build();
+//    }
+//
+//    public void getUserProfile() {
+//        if (mAccessToken == null) {
+//            Toast.makeText(this, "You need to get an access token first!", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//
+//        // Create a request to get the user profile
+//        final Request request = new Request.Builder()
+//                .url("https://api.spotify.com/v1/me")
+//                .addHeader("Authorization", "Bearer " + mAccessToken)
+//                .build();
+//
+//        cancelCall();
+//        mCall = mOkHttpClient.newCall(request);
+//
+//        mCall.enqueue(new Callback() {
+//            @Override
+//            public void onFailure(Call call, IOException e) {
+//                Log.d("HTTP", "Failed to fetch data: " + e);
+//                Toast.makeText(SpotifyLoginActivity.this, "Failed to fetch data, watch Logcat for more details",
+//                        Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onResponse(Call call, Response response) throws IOException {
+//                try {
+//
+//                    String responseString = response.body().string();
+//
+//                    Log.d("Spotify Data", responseString);
+//
+//                    SpotifyUser user = new SpotifyUser();
+//                    user.populateUserData(responseString, mAuth.getUid());
+//                    FirebaseManager.getInstance(getApplicationContext()).populateUserSpotifyData(user);
+//
+//                    Intent intent = new Intent(getApplicationContext(), WrappedDataActivity.class);
+//                    startActivity(intent);
+//                    finish();
+//                } catch (Exception e) {
+//                    Log.d("JSON", "Failed to parse data: " + e);
+////                    Toast.makeText(SpotifyLoginActivity.this, "Failed to parse data, watch Logcat for more details",
+////                            Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
+//    }
 
     /**
      * Gets the redirect Uri for Spotify

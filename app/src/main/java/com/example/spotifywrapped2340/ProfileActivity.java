@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.example.spotifywrapped2340.SpotifyDataManagers.SpotifyManager;
 import com.example.spotifywrapped2340.UIHelpers.ProfileGridItem;
 
 import java.util.ArrayList;
@@ -19,6 +20,13 @@ import java.util.List;
 public class ProfileActivity extends AppCompatActivity {
 
     private GridLayout gridLayout;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        SpotifyManager manager = SpotifyManager.getInstance(getApplicationContext());
+        manager.fetchTopArtists(SpotifyManager.TopItemType.artists, "medium_range", 10);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
