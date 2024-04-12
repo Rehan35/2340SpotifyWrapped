@@ -145,8 +145,8 @@ public class SpotifyManager {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.d("HTTP", "Failed to fetch data: " + e);
-                Toast.makeText(context, "Failed to fetch data, watch Logcat for more details",
-                        Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "Failed to fetch data, watch Logcat for more details",
+//                        Toast.LENGTH_SHORT).show();
             }
 
             @Override
