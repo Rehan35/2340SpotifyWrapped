@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -18,11 +20,16 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.spotifywrapped2340.SpotifyDataManagers.SpotifyManager;
+import com.example.spotifywrapped2340.util.CompletionListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.io.IOException;
+import java.net.URL;
 
 public class LoginActivity extends AppCompatActivity {
     TextView signInEmail;
@@ -35,9 +42,23 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
-            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-            startActivity(intent);
-            finish();
+            SpotifyManager.getInstance(getApplicationContext()).fetchTopArtists(SpotifyManager.TopItemType.artists, "", 20, new CompletionListener() {
+                @Override
+                public void onComplete(String result) throws IOException {
+                    Log.d("Size!!", SpotifyManager.getInstance(getApplicationContext()).topArtists.get(0).getName());
+                    String name = SpotifyManager.getInstance(getApplicationContext()).topArtists.get(0).getName();
+                    String url = SpotifyManager.getInstance(getApplicationContext()).topArtists.get(0).getArtistImageUrl();
+                    Log.d("URL!!", url);
+                    Intent intent = new Intent(getApplicationContext(), WrappedDataActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+
+                @Override
+                public void onError(Exception e) {
+
+                }
+            });
         }
     }
     @Override

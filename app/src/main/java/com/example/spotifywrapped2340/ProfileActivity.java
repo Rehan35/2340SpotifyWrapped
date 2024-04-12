@@ -24,8 +24,8 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        SpotifyManager manager = SpotifyManager.getInstance(getApplicationContext());
-        manager.fetchTopArtists(SpotifyManager.TopItemType.artists, "medium_range", 10);
+//        SpotifyManager manager = SpotifyManager.getInstance(getApplicationContext());
+//        manager.fetchTopArtists(SpotifyManager.TopItemType.artists, "medium_range", 10);
     }
 
     @Override

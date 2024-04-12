@@ -13,6 +13,7 @@ import com.example.spotifywrapped2340.ObjectStructures.SpotifyUser;
 import com.example.spotifywrapped2340.ProfileActivity;
 import com.example.spotifywrapped2340.SpotifyLoginActivity;
 import com.example.spotifywrapped2340.WrappedDataActivity;
+import com.example.spotifywrapped2340.util.CompletionListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -39,13 +40,15 @@ public class SpotifyManager {
 
     public static final String CLIENT_ID = "3f2eac4dbbb0498194d8b5d955949c1a";
     public static final String REDIRECT_URI = "spotify-wrapped-2340://auth";
-    private static String mAccessToken = "BQCQgd7RIVBc4ABAFxo8_E_w6lw3lQU9H3NdYDXOz4SUf96VXycCkyBJFxEpVt2sUwJvt8O_dbnWUSXaGHOEK25Vv04i0ojr9yRyl-yhP8c4MK1_sqAg_nPyYo7QSMpqQb9rE2BU1YicewFxrtkf71DqKliHKH1thNYrNi91TtaWS0s9SVwq0iJI_QZA0fVcSDJ1tMarib5x2U08YAY3yifZ57Qsgy8rhfuSJQAUhhqN-3o";
+    private static String mAccessToken = "BQBTZS7L5lQEK_lMG_vbaw4vLFx0gAoZilzLlOXwWnQ86c-W7Lnl9z2mnj0pRlCJbN8wNYh9QpCFDGwCFiMasSg9oJSMP1WbNHz9GYSUGDYXDEd2UfaA7aFVwDwNGrIAjkdp321PZK58Nyjk_t8oSIvIJ99isDdzlx0BQYasP68xPvVzURbG5njE_UmsuP7YWWtnoDDPuWBj4hWbgZXkLGmRchcwE9wDtX54Uk-tf-t8FIE";
 
     private static String mAccessCode;
     private final static OkHttpClient mOkHttpClient = new OkHttpClient();
     private static Call mCall;
     private static SpotifyManager instance;
     private static Context context;
+
+    public static ArrayList<Artist> topArtists = new ArrayList<>();
 
     private SpotifyManager(Context context) {
         this.context = context.getApplicationContext(); // Use application context
@@ -75,8 +78,8 @@ public class SpotifyManager {
         tracks
     }
 
-    public static ArrayList<Artist> fetchTopArtists(TopItemType type, String time_range, int limit) {
-        ArrayList<Artist> artistsList = new ArrayList<Artist>();
+    public static void fetchTopArtists(TopItemType type, String time_range, int limit, CompletionListener listener) {
+        Log.d("HELLO", "WORLD");
         final Request request = new Request.Builder()
                 .url("https://api.spotify.com/v1/me/top/" + type.toString())
                 .addHeader("Authorization", "Bearer " + mAccessToken)
@@ -112,6 +115,10 @@ public class SpotifyManager {
 
                     if (names != null && ids != null) {
                         for (int i = 0; i < names.size(); i++) {
+                            Artist artist = new Artist();
+                            artist.setName((String)names.get(i));
+                            artist.setArtistId((String) ids.get(i));
+                            topArtists.add(artist);
                             Log.d("Name, Id", (String) names.get(i) + ", " + (String) ids.get(i));
                         }
                     }
@@ -122,9 +129,13 @@ public class SpotifyManager {
                         JSONArray imagesArray = itemData.getJSONArray("images");
 
                         String url = imagesArray.getJSONObject(0).getString("url");
+                        topArtists.get(i).setArtistImageUrl(url);
                         Log.d("URL", url);
 
                     }
+                    listener.onComplete("Task completed successfully!");
+
+
 
 //                    SpotifyUser user = new SpotifyUser();
 //
@@ -142,7 +153,6 @@ public class SpotifyManager {
                 }
             }
         });
-        return new ArrayList<>();
     }
 
     public static void getUserProfile(Activity activity) {
@@ -183,7 +193,7 @@ public class SpotifyManager {
                     user.populateUserData(responseString, mAuth.getUid());
                     FirebaseManager.getInstance(context).populateUserSpotifyData(user);
 
-                    Intent intent = new Intent(context, ProfileActivity.class);
+                    Intent intent = new Intent(context, WrappedDataActivity.class);
                     startActivity(intent, activity);
                 } catch (Exception e) {
                     Log.d("JSON", "Failed to parse data: " + e);
