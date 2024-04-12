@@ -94,6 +94,17 @@
                 android:textStyle="bold"
                 app:cornerRadius="10dp" />
 
+            <Button
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="0dp"
+                android:id="@+id/have_account"
+                android:text="Already Have an Account?"
+                android:textColor="@color/spotifyGreen"
+                android:backgroundTint="@color/white"
+                app:cornerRadius="10dp"/>
+
         </LinearLayout>
 
 

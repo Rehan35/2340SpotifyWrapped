@@ -3,6 +3,7 @@ package com.example.spotifywrapped2340;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -34,6 +35,16 @@ public class RegisterActivity extends AppCompatActivity {
         signUpPassword = (TextView) findViewById(R.id.signup_password);
         signUpConfirmPassword = (TextView) findViewById(R.id.confirm_password);
 
+        Button alreadyHaveAccount = (Button) findViewById(R.id.have_account);
+
+        alreadyHaveAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
