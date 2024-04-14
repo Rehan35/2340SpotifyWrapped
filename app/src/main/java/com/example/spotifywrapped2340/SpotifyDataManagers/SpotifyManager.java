@@ -5,12 +5,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.spotifywrapped2340.Firebase.FirebaseManager;
 import com.example.spotifywrapped2340.ObjectStructures.Artist;
 import com.example.spotifywrapped2340.ObjectStructures.SpotifyUser;
 import com.example.spotifywrapped2340.ProfileActivity;
+import com.example.spotifywrapped2340.R;
 import com.example.spotifywrapped2340.SpotifyLoginActivity;
 import com.example.spotifywrapped2340.WrappedDataActivity;
 import com.example.spotifywrapped2340.util.CompletionListener;
@@ -23,6 +27,7 @@ import com.spotify.sdk.android.auth.AuthorizationResponse;
 
 import org.checkerframework.checker.units.qual.A;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;

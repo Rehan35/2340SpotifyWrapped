@@ -40,7 +40,10 @@ public class SettingsActivity extends AppCompatActivity {
 
             if (!newPassword.equals(confirmNewPassword)) {
                 Toast.makeText(SettingsActivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
-            } else {
+            } else if (newPassword.length() < 1) {
+                Toast.makeText(SettingsActivity.this, "Enter a password!", Toast.LENGTH_SHORT).show();
+            }
+            else {
                 updatePassword(newPassword);
             }
         });
