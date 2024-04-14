@@ -11,4 +11,7 @@
     <string name="profile_text">Profile</string>
     <string name="top_album">Top Album</string>
     <string name="top_artist">Top Artist</string>
+    <string name="new_password">New Password</string>
+    <string name="update_information">Update Information</string>
+    <string name="go_back">Go Back</string>
 </resources>

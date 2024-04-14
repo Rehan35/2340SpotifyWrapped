@@ -35,6 +35,14 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_activity);
 
+        ImageButton settingsButton = findViewById(R.id.settings_button);
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this, SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
         gridLayout = (GridLayout) findViewById(R.id.gridLayout);
         ProfileGridItem[] gridItems = new ProfileGridItem[]{
                 new ProfileGridItem("Tracks", R.drawable.tracks_placeholder_card_image, new TracksActivity()),
