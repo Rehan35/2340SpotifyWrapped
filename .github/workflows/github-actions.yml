@@ -1,0 +1,49 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build Debug APK
+        run: ./gradlew assembleDebug
+
+      - name: Run unit tests
+        run: ./gradlew test
+
+      - name: Install ktlint
+        run: |
+          curl -sSLO https://github.com/pinterest/ktlint/releases/download/0.42.1/ktlint
+          chmod +x ktlint
+          sudo mv ktlint /usr/local/bin/
+
+      - name: Check code formatting
+        run: |
+          git diff --name-only ${{ github.base_ref }} | grep '\.kt$' | xargs ktlint --relative .
+
+#      - name: Install Checkstyle
+#        run: |
+#          curl -L -o checkstyle.zip https://github.com/checkstyle/checkstyle/releases/download/checkstyle-8.44/checkstyle-8.44-all.jar
+#          unzip checkstyle.zip
+#
+#      - name: Check Java code formatting
+#        run: java -jar checkstyle-8.44-all.jar -c sun_checks.xml $(find . -name '*.java')
+
+
