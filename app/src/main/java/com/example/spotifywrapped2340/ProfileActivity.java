@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -16,16 +15,16 @@ import androidx.core.content.ContextCompat;
 
 import com.example.spotifywrapped2340.SpotifyDataManagers.SpotifyManager;
 import com.example.spotifywrapped2340.UIHelpers.ProfileGridItem;
+import com.example.spotifywrapped2340.util.CompletionListener;
 import com.google.common.util.concurrent.Futures;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
+
 import com.google.ai.client.generativeai.GenerativeModel;
 import com.google.ai.client.generativeai.java.GenerativeModelFutures;
 import com.google.ai.client.generativeai.type.Content;
 import com.google.ai.client.generativeai.type.GenerateContentResponse;
 import com.google.common.util.concurrent.FutureCallback;
-import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import java.util.concurrent.Executor;
 
@@ -37,8 +36,25 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-//        SpotifyManager manager = SpotifyManager.getInstance(getApplicationContext());
-//        manager.fetchTopArtists(SpotifyManager.TopItemType.artists, "medium_range", 10);
+        //SpotifyManager manager = SpotifyManager.getInstance(getApplicationContext());
+        //manager.fetchTopArtists(SpotifyManager.TopItemType.artists, "medium_range", 10);
+        SpotifyManager.getInstance(getApplicationContext()).fetchTopArtists(SpotifyManager.TopItemType.artists, "", 20, new CompletionListener() {
+            @Override
+            public void onComplete(String result) throws IOException {
+                Log.d("Size!!", SpotifyManager.getInstance(getApplicationContext()).topArtists.get(0).getName());
+                String name = SpotifyManager.getInstance(getApplicationContext()).topArtists.get(0).getName();
+                String url = SpotifyManager.getInstance(getApplicationContext()).topArtists.get(0).getArtistImageUrl();
+                Log.d("URL!!", url);
+                /*Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);*/
+                /*startActivity(intent);*/
+                /*finish();*/
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
     }
 
     @Override
@@ -55,7 +71,7 @@ public class ProfileActivity extends AppCompatActivity {
         gridLayout = findViewById(R.id.gridLayout);
         ProfileGridItem[] gridItems = new ProfileGridItem[]{
                 new ProfileGridItem("Tracks", R.drawable.tracks_placeholder_card_image, new TracksActivity()),
-                new ProfileGridItem("Artists", R.drawable.artists_placeholder_card, new ArtistsActivity()),
+                new ProfileGridItem("Artists", R.drawable.artists_placeholder_card, new ArtistWrapped()),
                 new ProfileGridItem("Playlists", R.drawable.playlists_placeholder_card, new TracksActivity()),
                 new ProfileGridItem("Lyrics", R.drawable.lyrics_placeholder_card, new TracksActivity()),
                 new ProfileGridItem("For You", R.drawable.foryou_placeholder_card, new TracksActivity()),

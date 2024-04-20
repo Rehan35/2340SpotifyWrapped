@@ -20,7 +20,7 @@
             android:name=".SettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".WrappedDataActivity"
+            android:name=".ArtistWrapped"
             android:exported="true">
 
             <!-- <intent-filter> -->

@@ -14,7 +14,7 @@ import com.example.spotifywrapped2340.SpotifyDataManagers.SpotifyManager;
 import jp.shts.android.storiesprogressview.StoriesProgressView;
 
 
-public class WrappedDataActivity extends AppCompatActivity implements StoriesProgressView.StoriesListener{
+public class ArtistWrapped extends AppCompatActivity implements StoriesProgressView.StoriesListener{
 
     private StoriesProgressView storiesProgressView;
     private TextView topLabel;
@@ -43,7 +43,7 @@ public class WrappedDataActivity extends AppCompatActivity implements StoriesPro
 
         artistName.setText("#" + (currentIndex + 1));
         trackName.setText(SpotifyManager.topArtists.get(currentIndex).getName());
-        Glide.with(WrappedDataActivity.this).load(SpotifyManager.topArtists.get(currentIndex).getArtistImageUrl()).into(imageView);
+        Glide.with(ArtistWrapped.this).load(SpotifyManager.topArtists.get(currentIndex).getArtistImageUrl()).into(imageView);
 
 
 
@@ -64,9 +64,8 @@ public class WrappedDataActivity extends AppCompatActivity implements StoriesPro
         currentIndex++;
         artistName.setText("#" + (currentIndex + 1));
         trackName.setText(SpotifyManager.topArtists.get(currentIndex).getName());
-        Glide.with(WrappedDataActivity.this).load(SpotifyManager.topArtists.get(currentIndex).getArtistImageUrl()).into(imageView);
+        Glide.with(ArtistWrapped.this).load(SpotifyManager.topArtists.get(currentIndex).getArtistImageUrl()).into(imageView);
 
-        Toast.makeText(this, "onNext", Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
-            SpotifyManager.getInstance(getApplicationContext()).fetchTopArtists(SpotifyManager.TopItemType.artists, "", 20, new CompletionListener() {
+            /*SpotifyManager.getInstance(getApplicationContext()).fetchTopArtists(SpotifyManager.TopItemType.artists, "", 20, new CompletionListener() {
                 @Override
                 public void onComplete(String result) throws IOException {
                     Log.d("Size!!", SpotifyManager.getInstance(getApplicationContext()).topArtists.get(0).getName());
@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
                 public void onError(Exception e) {
 
                 }
-            });
+            });*/
         }
     }
     @Override
