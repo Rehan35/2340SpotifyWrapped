@@ -91,6 +91,16 @@
                 android:backgroundTint="@color/white"
                 app:cornerRadius="10dp"/>
             <Button
+                android:id="@+id/logout_button"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="@string/logout"
+                android:textColor="@color/black"
+                android:backgroundTint="@color/white"
+                app:cornerRadius="10dp" />
+            <Button
                 android:id="@+id/delete_account_button"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
