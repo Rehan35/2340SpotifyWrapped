@@ -37,6 +37,8 @@ public class SpotifyManager {
     private static String mAccessToken = "BQAKcHbszfzRFDaaUkRpP0g6QASYEAa0Exz7NoCowFrjmFwAij0wsQ4V359JsPq0TtzeOoq0aDdHIrQQsEiapzx2p3NOhczUwYRI_gl4pU1ahZ2efWO3Y5tG5b0mpVglnBuWZzs8BQau3FumeCERV0J2ZNZ_gikYcGI_RP3wsS-rKARI46o3ZLeBTypqYgT3SPCg7DbTou2zwF418HaH_6fXEtKo1pVYl77Jqz8rx7Rc4H0";
 
     private static String mAccessCode;
+
+
     private final static OkHttpClient mOkHttpClient = new OkHttpClient();
     private static Call mCall;
     private static SpotifyManager instance;
