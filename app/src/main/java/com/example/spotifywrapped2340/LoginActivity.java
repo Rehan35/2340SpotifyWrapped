@@ -34,7 +34,9 @@ import java.net.URL;
 public class LoginActivity extends AppCompatActivity {
     TextView signInEmail;
     TextView signInPassword;
+    CheckBox rememberMe;
     FirebaseAuth mAuth;
+
     @Override
     public void onStart() {
         super.onStart();
@@ -65,6 +67,29 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
+        rememberMe = findViewById(R.id.loginCheckBox);
+        SharedPreferences pref = getSharedPreferences("checkbox", MODE_PRIVATE);
+        String check = pref.getString("remember", "");
+        if (check.equals("true")) {
+            Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
+            startActivity(intent);
+        }
+        rememberMe.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (buttonView.isChecked()) {
+                    SharedPreferences pref = getSharedPreferences("checkbox", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("remember", "true");
+                    editor.apply();
+                } else if (!buttonView.isChecked()) {
+                    SharedPreferences pref = getSharedPreferences("checkbox", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("remember", "false");
+                    editor.apply();
+                }
+            }
+        });
 
         signInEmail = findViewById(R.id.signin_email);
         signInPassword = findViewById(R.id.signin_password);
