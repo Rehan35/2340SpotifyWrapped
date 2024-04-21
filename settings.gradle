@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "SpotifyWrapped2340"
-include ':app'
+include ':app', ':spotify-app-remote'

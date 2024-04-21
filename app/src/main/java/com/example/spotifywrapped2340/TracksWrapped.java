@@ -12,7 +12,8 @@ import com.bumptech.glide.Glide;
 import com.example.spotifywrapped2340.SpotifyDataManagers.SpotifyManager;
 
 import jp.shts.android.storiesprogressview.StoriesProgressView;
-
+import com.spotify.android.appremote.*;
+import com.spotify.android.appremote.api.SpotifyAppRemote;
 
 public class TracksWrapped extends AppCompatActivity implements StoriesProgressView.StoriesListener{
 
@@ -24,13 +25,14 @@ public class TracksWrapped extends AppCompatActivity implements StoriesProgressV
     private int currentIndex = 0;
 
     private ImageView imageView;
+    private SpotifyAppRemote obj;
 
 
     @Override
     protected void onStart() {
         super.onStart();
+        obj.getPlayerApi();
     }
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +47,7 @@ public class TracksWrapped extends AppCompatActivity implements StoriesProgressV
         artistName.setText("#" + (currentIndex + 1));
         trackName.setText(SpotifyManager.topArtists.get(currentIndex).getName());
         Glide.with(TracksWrapped.this).load(SpotifyManager.topArtists.get(currentIndex).getArtistImageUrl()).into(imageView);
+
 
 
 

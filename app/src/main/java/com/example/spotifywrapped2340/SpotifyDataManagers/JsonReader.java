@@ -3,10 +3,10 @@ package com.example.spotifywrapped2340.SpotifyDataManagers;
 import android.util.Log;
 
 import com.google.firestore.v1.ArrayValue;
-import com.google.gson.Gson;
+/*import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.google.gson.JsonObject;*/
 
 import org.checkerframework.checker.units.qual.A;
 import org.json.JSONArray;
