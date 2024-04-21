@@ -4,17 +4,24 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.spotifywrapped2340.SpotifyDataManagers.SpotifyManager;
 
-import jp.shts.android.storiesprogressview.StoriesProgressView;
+import jp.shts.android.storiesprogressview.StoriesProgressView;    import com.example.spotifywrapped2340.SpotifyDataManagers.SpotifyManager;
+import com.spotify.android.appremote.api.*;
+import com.spotify.android.appremote.api.ConnectionParams;
+import com.spotify.android.appremote.api.Connector;
+import com.spotify.android.appremote.api.SpotifyAppRemote;import com.spotify.android.appremote.api.ConnectionParams;
+
 
 
 public class TracksActivity extends AppCompatActivity implements StoriesProgressView.StoriesListener{
@@ -27,6 +34,10 @@ public class TracksActivity extends AppCompatActivity implements StoriesProgress
     private int currentIndex = 0;
 
     private ImageView imageView;
+    private SpotifyAppRemote obj;
+
+
+
 
 
     @Override
@@ -38,6 +49,29 @@ public class TracksActivity extends AppCompatActivity implements StoriesProgress
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wrapped);
+
+        ConnectionParams connectionParams =
+                new ConnectionParams.Builder("3f2eac4dbbb0498194d8b5d955949c1a")
+                        .setRedirectUri("spotify-wrapped-2340://auth")
+                        .showAuthView(true)
+                        .build();
+        SpotifyAppRemote.connect(this, connectionParams, new Connector.ConnectionListener() {
+            @Override
+            public void onConnected(@NonNull SpotifyAppRemote spotifyAppRemote) {
+                obj = spotifyAppRemote;
+                Log.d("MainActivity", "Connected to Spotify!");
+
+                playTrack("spotify:track:4uLU6hMCjMI75M1A2tKUQC");
+            }
+            @Override
+            public void onFailure(Throwable error) {
+                Log.e("MainActivity", "Failed to connect to Spotify", error);
+                // Handle connection failure here
+            }
+        });
+
+
+
         topLabel = (TextView) findViewById(R.id.topLabel);
         topLabel.setText("Top Tracks!");
 
@@ -69,7 +103,14 @@ public class TracksActivity extends AppCompatActivity implements StoriesProgress
         storiesProgressView.startStories(); // <- start progress
     }
 
-
+    private void playTrack (String trackUri) {
+        if (obj != null && obj.isConnected()) {
+            obj.getPlayerApi().play(trackUri);
+        } else {
+            Log.e("MainActivity", "Cannot play track: Spotify connection not established or disconnected.");
+            // Handle the case where Spotify connection is not established or disconnected
+        }
+    }
     @Override
     public void onNext() {
         currentIndex++;
