@@ -55,6 +55,23 @@ public class ProfileActivity extends AppCompatActivity {
 
             }
         });
+
+        SpotifyManager.getInstance(getApplicationContext()).fetchTopTracks(SpotifyManager.TopItemType.tracks, "", 20, new CompletionListener() {
+            @Override
+            public void onComplete(String result) throws IOException {
+//                Log.d("Size!!", SpotifyManager.getInstance(getApplicationContext()).topTracks.get(0).getName());
+//                String name = SpotifyManager.getInstance(getApplicationContext()).topTracks.get(0).getName();
+//                String url = SpotifyManager.getInstance(getApplicationContext()).topArtists.get(0).getArtistImageUrl();
+//                Log.d("URL!!", url);
+                /*Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);*/
+                /*startActivity(intent);*/
+                /*finish();*/
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }});
     }
 
     @Override

@@ -1,6 +1,15 @@
 package com.example.spotifywrapped2340.ObjectStructures;
 
 public class Track {
+
+    public Track(String artistId, String trackName, String artistName, String albumType, String albumCoverURL) {
+        this.artistId = artistId;
+        this.trackName = trackName;
+        this.artistName = artistName;
+        this.albumType = albumType;
+        this.albumCoverURL = albumCoverURL;
+    }
+
     public String getArtistId() {
         return artistId;
     }
@@ -9,12 +18,12 @@ public class Track {
         this.artistId = artistId;
     }
 
-    public String getAlbumName() {
-        return albumName;
+    public String getTrackName() {
+        return trackName;
     }
 
-    public void setAlbumName(String albumName) {
-        this.albumName = albumName;
+    public void setTrackName(String trackName) {
+        this.trackName = trackName;
     }
 
     public String getArtistName() {
@@ -42,14 +51,13 @@ public class Track {
     }
 
     String artistId;
-    String albumName;
+    String trackName;
+
 
     String artistName;
     String albumType;
 
     String albumCoverURL;
-
-    String albumId;
 
 
 }

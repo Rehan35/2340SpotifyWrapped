@@ -10,12 +10,14 @@ import android.widget.Toast;
 import com.example.spotifywrapped2340.Firebase.FirebaseManager;
 import com.example.spotifywrapped2340.ObjectStructures.Artist;
 import com.example.spotifywrapped2340.ObjectStructures.SpotifyUser;
+import com.example.spotifywrapped2340.ObjectStructures.Track;
 import com.example.spotifywrapped2340.ProfileActivity;
 import com.example.spotifywrapped2340.util.CompletionListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.spotify.sdk.android.auth.AuthorizationRequest;
 import com.spotify.sdk.android.auth.AuthorizationResponse;
 
+import org.checkerframework.checker.units.qual.A;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -34,7 +36,7 @@ public class SpotifyManager {
 
     public static final String CLIENT_ID = "3f2eac4dbbb0498194d8b5d955949c1a";
     public static final String REDIRECT_URI = "spotify-wrapped-2340://auth";
-    private static String mAccessToken = "BQAKcHbszfzRFDaaUkRpP0g6QASYEAa0Exz7NoCowFrjmFwAij0wsQ4V359JsPq0TtzeOoq0aDdHIrQQsEiapzx2p3NOhczUwYRI_gl4pU1ahZ2efWO3Y5tG5b0mpVglnBuWZzs8BQau3FumeCERV0J2ZNZ_gikYcGI_RP3wsS-rKARI46o3ZLeBTypqYgT3SPCg7DbTou2zwF418HaH_6fXEtKo1pVYl77Jqz8rx7Rc4H0";
+    private static String mAccessToken = "BQCpOif0GgNuBhAKGREhNOMEDXVYG4dLo8p1WsAG3ddIODtyXrKjW1fr91aq2DTBIXfyj2l1FOr_hPacKlrYvUgTbVrBDrOt2d5G-ONWtYtBdqyH5ZOQ5fcYspFBVcp86pdygSBJ1aGzPGf4GMZxgL32RGKslukQLWlLVQ99JX52pJKTF-HM3PJ8Z5dFcasqPcioCneUDLMKBjFLK7HUHTW7KBse9VfH1EmmSPCMlpZCKS4";
 
     private static String mAccessCode;
 
@@ -45,6 +47,8 @@ public class SpotifyManager {
     private static Context context;
 
     public static ArrayList<Artist> topArtists = new ArrayList<>();
+
+    public static ArrayList<Track> topTracks = new ArrayList<>();
 
     private static Map<String, Integer> genreMap;
 
@@ -76,7 +80,7 @@ public class SpotifyManager {
         tracks
     }
 
-    public static ArrayList<Artist> fetchTopTracks(TopItemType type, String time_range, int limit) {
+    public static ArrayList<Artist> fetchTopTracks(TopItemType type, String time_range, int limit, CompletionListener listener) {
         ArrayList<Artist> artistsList = new ArrayList<Artist>();
         final Request request = new Request.Builder()
                 .url("https://api.spotify.com/v1/me/top/" + type.toString())
@@ -99,7 +103,7 @@ public class SpotifyManager {
 
                     String responseString = response.body().string();
 
-                    Log.d("Spotify Data", responseString);
+                    Log.d("Spotify Data Tracks", responseString);
 
                     JsonReader reader = new JsonReader(responseString);
 
@@ -113,10 +117,12 @@ public class SpotifyManager {
 
                         JSONArray artists = album.getJSONArray("artists");
                         String artistId = artists.getJSONObject(0).getString("id");
+                        String artistName = artists.getJSONObject(0).getString("name");
 
                         JSONArray images = album.getJSONArray("images");
                         String albumCoverImageURL = images.getJSONObject(0).getString("url");
                         Log.d("Album Data", albumType + " " + totalTracks + " " + name + " " + artistId + " " + albumCoverImageURL);
+                        topTracks.add(new Track(artistId, name, artistName, albumType, albumCoverImageURL));
                     }
                 } catch (Exception e) {
                     Log.d("JSON", "Failed to parse data: " + e);
