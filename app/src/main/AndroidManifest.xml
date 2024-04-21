@@ -92,7 +92,13 @@
             android:name=".ArtistsActivity"
             android:exported="true"></activity>
         <activity
+
             android:name=".ForYouActivity"
+
+            android:name=".SavedTrackWrappedActivity"
+            android:exported="true"></activity>
+        <activity
+            android:name=".SavedArtistWrappedActivity"
             android:exported="true"></activity>
 
         <meta-data

@@ -7,6 +7,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -14,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -21,6 +26,12 @@ import com.bumptech.glide.Glide;
 import com.example.spotifywrapped2340.ObjectStructures.Artist;
 import com.example.spotifywrapped2340.ObjectStructures.Track;
 import com.example.spotifywrapped2340.SpotifyDataManagers.SpotifyManager;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 
@@ -40,7 +51,17 @@ public class ArtistWrapped extends AppCompatActivity implements StoriesProgressV
 
     private ImageView imageView;
 
+
     private ArrayList<Artist> topArtists = SpotifyManager.topArtistsShort; //change if necessary
+
+    public ArtistWrapped(String json) throws JSONException {
+        SpotifyManager.getInstance(ArtistWrapped.this).fetchTopArtists(json);
+    }
+
+    public ArtistWrapped(){}
+
+    private Button saveButton;
+
 
 
     @Override
@@ -116,7 +137,39 @@ public class ArtistWrapped extends AppCompatActivity implements StoriesProgressV
             }
         });
 
+        saveButton = (Button) findViewById(R.id.save_button);
 
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        AlertDialog.Builder builder = new AlertDialog.Builder(ArtistWrapped.this);
+        final EditText edittext = new EditText(ArtistWrapped.this);
+        builder.setView(edittext);
+        builder.setTitle("Name your Wrapped");
+        HashMap<String, Object> nestedData = new HashMap<>();
+        builder
+                .setPositiveButton("Save", (dialog, which) -> {
+                    nestedData.put("json", SpotifyManager.getInstance(getApplicationContext()).artistString);
+                    nestedData.put("image_url", SpotifyManager.topTracks.get(0).getAlbumCoverURL());
+                    nestedData.put("wrapped_name", edittext.getText().toString());
+                    db.collection("Users").document(SpotifyManager.getInstance(getApplicationContext()).user.getUserId()).collection("artistpaths").document().set(nestedData).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Log.d("SUCCESS", "RAHHHH");
+                        }
+                    });
+                    Log.d("Dialog", SpotifyManager.getInstance(getApplicationContext()).user.getUserId());
+
+                })
+                .setNegativeButton("Cancel", (dialog, which) -> {
+
+                });
+
+        AlertDialog dialog = builder.create();
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.show();
+            }
+        });
 
 
 
