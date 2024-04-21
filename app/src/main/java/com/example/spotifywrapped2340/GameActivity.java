@@ -93,9 +93,9 @@ public class GameActivity extends AppCompatActivity {
                 EditText guessText = (EditText) findViewById(R.id.guess_text_field);
                 String guessedInput = guessText.getText().toString();
 
-                Log.d("ANSWER", isAlbum ? album.getTrackName() : artist.getName());
+                Log.d("ANSWER", isAlbum ? album.getAlbumName() : artist.getName());
 
-                String correctName = isAlbum ? album.getTrackName() : artist.getName();
+                String correctName = isAlbum ? album.getAlbumName() : artist.getName();
 
                 if (guessedInput.toLowerCase().equals(correctName.toLowerCase())) {
                     Toast.makeText(GameActivity.this, "Way to go", Toast.LENGTH_SHORT).show();

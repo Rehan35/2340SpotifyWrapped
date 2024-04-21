@@ -8,6 +8,16 @@ public class Track {
         this.artistName = artistName;
         this.albumType = albumType;
         this.albumCoverURL = albumCoverURL;
+        this.albumName = "Album";
+    }
+
+    public Track(String artistId, String trackName, String artistName, String albumType, String albumCoverURL, String albumName) {
+        this.artistId = artistId;
+        this.trackName = trackName;
+        this.artistName = artistName;
+        this.albumType = albumType;
+        this.albumCoverURL = albumCoverURL;
+        this.albumName = albumName;
     }
 
     public String getArtistId() {
@@ -50,6 +60,14 @@ public class Track {
         this.albumCoverURL = albumCoverURL;
     }
 
+    public void setAlbumName(String albumName) {
+        this.albumName = albumName;
+    }
+
+    public String getAlbumName() {
+        return this.albumName;
+    }
+
     String artistId;
     String trackName;
 
@@ -58,6 +76,8 @@ public class Track {
     String albumType;
 
     String albumCoverURL;
+
+    String albumName;
 
 
 }

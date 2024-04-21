@@ -65,7 +65,8 @@
         android:background="@drawable/game_activity_text_bkg"
         android:layout_marginTop="5dp"
         android:textColor="@color/black"
-        android:text="Guess Cover"
+        android:hint="Guess Cover"
+        android:padding="10dp"
         android:inputType="text"/>
 
     <Button

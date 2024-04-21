@@ -122,6 +122,10 @@ public class SpotifyManager {
 
     }
 
+    public ArrayList<Artist> forYouArtists() {
+        return null;
+    }
+
     public ArrayList<Artist> fetchTopTracks(TopItemType type, String time_range, int limit, CompletionListener completionListener) {
         ArrayList<Artist> artistsList = new ArrayList<Artist>();
 
@@ -172,8 +176,8 @@ public class SpotifyManager {
                     for (int i = 0; i < albums.length(); i++) {
                         JSONObject album = albums.getJSONObject(i).getJSONObject("album");
                         String albumType = album.getString("album_type");
+                        String albumName = album.getString("name");
                         int totalTracks = album.getInt("total_tracks");
-//                        String name = album.getString("name");
 
                         JSONObject track = albums.getJSONObject(i);
 
@@ -186,16 +190,18 @@ public class SpotifyManager {
 
                         JSONArray images = album.getJSONArray("images");
                         String albumCoverImageURL = images.getJSONObject(0).getString("url");
-                        Log.d("Album Data", albumType + " " + totalTracks + " " + trackName + " " + artistId + " " + albumCoverImageURL);
+                        Log.d("Album Data", albumType + " " + totalTracks + " " + trackName + " " + artistId + " " + albumCoverImageURL + " " + albumName);
+
+                        Track newTrack = new Track(artistId, trackName, artistName, albumType, albumCoverImageURL, albumName);
 
                         if (time_range.equals("short_term")) {
-                            topTracksShort.add(new Track(artistId, trackName, artistName, albumType, albumCoverImageURL));
+                            topTracksShort.add(newTrack);
                             topTracks = topTracksShort;
                         } else if (time_range.equals("medium_term")) {
-                            topTracksMedium.add(new Track(artistId, trackName, artistName, albumType, albumCoverImageURL));
+                            topTracksMedium.add(newTrack);
                             topTracks = topTracksMedium;
                         } else if (time_range.equals("long_term")) {
-                            topTracksLong.add(new Track(artistId, trackName, artistName, albumType, albumCoverImageURL));
+                            topTracksLong.add(newTrack);
                             topTracks = topTracksLong;
                         }
                         //topTracks.add(new Track(artistId, name, artistName, albumType, albumCoverImageURL));
