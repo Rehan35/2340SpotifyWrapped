@@ -93,6 +93,8 @@ public class SpotifyLoginActivity extends AppCompatActivity {
             Log.d("TOKEN SUCCESS", response.getAccessToken());
             SpotifyManager.setAccessToken(response.getAccessToken());
             SpotifyManager.getInstance(getApplicationContext()).getUserProfile(this);
+            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+            startActivity(intent);
         }
     }
 
