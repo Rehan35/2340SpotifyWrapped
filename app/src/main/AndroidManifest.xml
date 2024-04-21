@@ -91,6 +91,9 @@
         <activity
             android:name=".ArtistsActivity"
             android:exported="true"></activity>
+        <activity
+            android:name=".ForYouActivity"
+            android:exported="true"></activity>
 
         <meta-data
             android:name="preloaded_fonts"

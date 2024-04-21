@@ -1,11 +1,15 @@
 package com.example.spotifywrapped2340;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.example.spotifywrapped2340.ObjectStructures.Track;
 import com.example.spotifywrapped2340.SpotifyDataManagers.SpotifyManager;
 
 import jp.shts.android.storiesprogressview.StoriesProgressView;    import com.example.spotifywrapped2340.SpotifyDataManagers.SpotifyManager;
@@ -22,6 +27,7 @@ import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
 import com.spotify.android.appremote.api.SpotifyAppRemote;import com.spotify.android.appremote.api.ConnectionParams;
 
+import java.util.ArrayList;
 
 
 public class TracksActivity extends AppCompatActivity implements StoriesProgressView.StoriesListener{
@@ -30,7 +36,9 @@ public class TracksActivity extends AppCompatActivity implements StoriesProgress
     private TextView topLabel;
     private TextView trackName;
     private TextView artistName;
-    private Button backButton;
+
+    private Spinner timeRangeSpinner;
+    private ArrayList<Track> topTracks = SpotifyManager.topTracksShort;
     private int currentIndex = 0;
 
     private ImageView imageView;
@@ -78,11 +86,56 @@ public class TracksActivity extends AppCompatActivity implements StoriesProgress
         trackName = (TextView) findViewById(R.id.trackLabel);
         artistName = (TextView) findViewById(R.id.artistLabel);
         imageView = (ImageView) findViewById(R.id.mainImage);
-        backButton = (Button) findViewById(R.id.wrapped_return_button);
+        Button backButton = (Button) findViewById(R.id.wrapped_return_button);
+
+        timeRangeSpinner = findViewById(R.id.timeRangeSpinner);
+        String[] timeRanges = {"Short Term", "Medium Term", "Long Term"};
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, timeRanges);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        timeRangeSpinner.setAdapter(adapter);
+
+
+        SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        int selectedItemPosition = preferences.getInt("selectedItemPosition", 0);
+
+
+        timeRangeSpinner.setSelection(selectedItemPosition);
+
+        timeRangeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                // Handle selection
+                String selectedTimeRange = timeRanges[position];
+                SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putInt("selectedItemPosition", position);
+                editor.apply();
+                if (selectedTimeRange.equals("Short Term")) {
+                    topTracks = SpotifyManager.topTracksShort;
+                    trackName.setText(topTracks.get(currentIndex).getTrackName());
+                    Glide.with(TracksActivity.this).load(topTracks.get(currentIndex).getAlbumCoverURL()).into(imageView);
+                } else if (selectedTimeRange.equals("Medium Term")) {
+                    topTracks = SpotifyManager.topTracksMedium;
+                    trackName.setText(topTracks.get(currentIndex).getTrackName());
+                    Glide.with(TracksActivity.this).load(topTracks.get(currentIndex).getAlbumCoverURL()).into(imageView);
+                } else if (selectedTimeRange.equals("Long Term")) {
+                    topTracks = SpotifyManager.topTracksLong;
+                    trackName.setText(topTracks.get(currentIndex).getTrackName());
+                    Glide.with(TracksActivity.this).load(topTracks.get(currentIndex).getAlbumCoverURL()).into(imageView);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                String selectedTimeRange = timeRanges[0];
+            }
+        });
 
         artistName.setText("#" + (currentIndex + 1));
-        trackName.setText(SpotifyManager.topTracks.get(currentIndex).getTrackName());
-        Glide.with(TracksActivity.this).load(SpotifyManager.topTracks.get(currentIndex).getAlbumCoverURL()).into(imageView);
+
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,8 +168,8 @@ public class TracksActivity extends AppCompatActivity implements StoriesProgress
     public void onNext() {
         currentIndex++;
         artistName.setText("#" + (currentIndex + 1));
-        trackName.setText(SpotifyManager.topTracks.get(currentIndex).getTrackName());
-        Glide.with(TracksActivity.this).load(SpotifyManager.topTracks.get(currentIndex).getAlbumCoverURL()).into(imageView);
+        trackName.setText(topTracks.get(currentIndex).getTrackName());
+        Glide.with(TracksActivity.this).load(topTracks.get(currentIndex).getAlbumCoverURL()).into(imageView);
 
     }
 

@@ -44,7 +44,14 @@ public class SpotifyManager {
 
     public static ArrayList<Artist> topArtists = new ArrayList<>();
 
+    public static ArrayList<Artist> topArtistsShort = new ArrayList<>();
+    public static ArrayList<Artist> topArtistsMedium = new ArrayList<>();
+    public static ArrayList<Artist> topArtistsLong = new ArrayList<>();
+
     public static ArrayList<Track> topTracks = new ArrayList<>();
+    public static ArrayList<Track> topTracksShort = new ArrayList<>();
+    public static ArrayList<Track> topTracksMedium = new ArrayList<>();
+    public static ArrayList<Track> topTracksLong = new ArrayList<>();
 
     private static Map<String, Integer> genreMap;
 
@@ -82,22 +89,23 @@ public class SpotifyManager {
 
         final Request request;
 
-        if (time_range.equals("Short Term")) {
+        if (time_range.equals("short_term")) {
             request = new Request.Builder()
-                    .url("https://api.spotify.com/v1/me/top/" + type.toString())
+                    .url("https://api.spotify.com/v1/me/top/" + type.toString() + "?time_range=short_term")
                     .addHeader("Authorization", "Bearer " + mAccessToken)
                     .build();
-        } else if (time_range.equals("Medium Term")) {
+        } else if (time_range.equals("medium_term")) {
             request = new Request.Builder()
-                    .url("https://api.spotify.com/v1/me/top/" + type.toString())
+                    .url("https://api.spotify.com/v1/me/top/" + type.toString() + "?time_range=medium_term")
                     .addHeader("Authorization", "Bearer " + mAccessToken)
                     .build();
         } else {
             request = new Request.Builder()
-                    .url("https://api.spotify.com/v1/me/top/" + type.toString())
+                    .url("https://api.spotify.com/v1/me/top/" + type.toString() + "?time_range=long_term")
                     .addHeader("Authorization", "Bearer " + mAccessToken)
                     .build();
         }
+
 
 //        cancelCall();
         mCall = mOkHttpClient.newCall(request);
@@ -127,6 +135,8 @@ public class SpotifyManager {
                         String albumType = album.getString("album_type");
                         int totalTracks = album.getInt("total_tracks");
                         String name = album.getString("name");
+                        Log.d("Name of Top Track", name);
+
 
                         JSONArray artists = album.getJSONArray("artists");
                         String artistId = artists.getJSONObject(0).getString("id");
@@ -134,8 +144,17 @@ public class SpotifyManager {
 
                         JSONArray images = album.getJSONArray("images");
                         String albumCoverImageURL = images.getJSONObject(0).getString("url");
+
+                        if (time_range.equals("short_term")) {
+                            topTracksShort.add(new Track(artistId, name, artistName, albumType, albumCoverImageURL));
+                        } else if (time_range.equals("medium_term")) {
+                            topTracksMedium.add(new Track(artistId, name, artistName, albumType, albumCoverImageURL));
+                        } else if (time_range.equals("long_term")) {
+                            topTracksLong.add(new Track(artistId, name, artistName, albumType, albumCoverImageURL));
+                        }
                         Log.d("Album Data", albumType + " " + totalTracks + " " + name + " " + artistId + " " + albumCoverImageURL);
-                        topTracks.add(new Track(artistId, name, artistName, albumType, albumCoverImageURL));
+
+                        //topTracks.add(new Track(artistId, name, artistName, albumType, albumCoverImageURL));
                     }
                 } catch (Exception e) {
                     Log.d("JSON", "Failed to parse data: " + e);
@@ -149,10 +168,26 @@ public class SpotifyManager {
 
     public void fetchTopArtists(TopItemType type, String time_range, int limit, CompletionListener listener) {
         Log.d("HELLO", "WORLD");
-        final Request request = new Request.Builder()
-                .url("https://api.spotify.com/v1/me/top/" + type.toString())
-                .addHeader("Authorization", "Bearer " + mAccessToken)
-                .build();
+
+        final Request request;
+
+        if (time_range.equals("short_term")) {
+            request = new Request.Builder()
+                    .url("https://api.spotify.com/v1/me/top/" + type.toString() + "?time_range=short_term")
+                    .addHeader("Authorization", "Bearer " + mAccessToken)
+                    .build();
+        } else if (time_range.equals("medium_term")) {
+            request = new Request.Builder()
+                    .url("https://api.spotify.com/v1/me/top/" + type.toString() + "?time_range=medium_term")
+                    .addHeader("Authorization", "Bearer " + mAccessToken)
+                    .build();
+        } else {
+            request = new Request.Builder()
+                    .url("https://api.spotify.com/v1/me/top/" + type.toString() + "?time_range=long_term")
+                    .addHeader("Authorization", "Bearer " + mAccessToken)
+                    .build();
+        }
+
 //        cancelCall();
         mCall = mOkHttpClient.newCall(request);
 
@@ -187,7 +222,14 @@ public class SpotifyManager {
                             Artist artist = new Artist("", "", "", 0, new ArrayList<>());
                             artist.setName((String)names.get(i));
                             artist.setArtistId((String) ids.get(i));
-                            topArtists.add(artist);
+                            if (time_range.equals("short_term")) {
+                                topArtistsShort.add(artist);
+                            } else if (time_range.equals("medium_term")) {
+                                topArtistsMedium.add(artist);
+                            } else if (time_range.equals("long_term")) {
+                                topArtistsLong.add(artist);
+                            }
+                            //topArtists.add(artist);
                             Log.d("Name, Id", (String) names.get(i) + ", " + (String) ids.get(i));
                         }
                     }
@@ -198,6 +240,20 @@ public class SpotifyManager {
                     for (int i = 0; i < itemsJsonArray.length(); i++) {
                         JSONObject itemData = itemsJsonArray.getJSONObject(i);
                         JSONArray imagesArray = itemData.getJSONArray("images");
+                        if (imagesArray.length() > 0) {
+                            String url = imagesArray.getJSONObject(0).getString("url");
+                            if (time_range.equals("short_term")) {
+                                topArtistsShort.get(i).setArtistImageUrl(url);
+                            } else if (time_range.equals("medium_term")) {
+                                topArtistsMedium.get(i).setArtistImageUrl(url);
+                            } else if (time_range.equals("long_term")) {
+                                topArtistsLong.get(i).setArtistImageUrl(url);
+                            }
+                            Log.d("URL", url);
+                        } else {
+                            Log.d("URL", "No image available for artist at index " + i);
+                        }
+
                         JSONArray genres = (JSONArray) itemData.get("genres");
 
                         ArrayList<String> artistGenres = new ArrayList<>();
@@ -208,9 +264,9 @@ public class SpotifyManager {
                             genreMap.put(genre, genreMap.getOrDefault(genre, 0) + 1);
                         }
 
-                        String url = imagesArray.getJSONObject(0).getString("url");
-                        topArtists.get(i).setArtistImageUrl(url);
-                        Log.d("URL", url);
+                        //String url = imagesArray.getJSONObject(0).getString("url");
+
+                        //topArtists.get(i).setArtistImageUrl(url);
 
                     }
                     listener.onComplete("Task completed successfully!");
@@ -325,12 +381,34 @@ public class SpotifyManager {
 //                    user.populateUserData(responseString, mAuth.getUid());
 //                    FirebaseManager.getInstance(context).populateUserSpotifyData(user);
 
-                    fetchTopArtists(SpotifyManager.TopItemType.artists, "", 20, new CompletionListener() {
+                    fetchTopArtists(SpotifyManager.TopItemType.artists, "short_term", 20, new CompletionListener() {
                         @Override
                         public void onComplete(String result) throws IOException {
-                            Log.d("Size!!", topArtists.get(0).getName());
-                            String name = topArtists.get(0).getName();
-                            String url = topArtists.get(0).getArtistImageUrl();
+                            Log.d("Size!!", topArtistsShort.get(0).getName());
+                            String name = topArtistsShort.get(0).getName();
+                            String url = topArtistsShort.get(0).getArtistImageUrl();
+                            Log.d("URL!!", url);
+
+//                            Intent intent = new Intent(context, ProfileActivity.class);
+//                            startActivity(intent, activity);
+
+                            /*Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);*/
+                            /*startActivity(intent);*/
+                            /*finish();*/
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+                            Log.d("Error", "error with getting artists" + e);
+                        }
+                    });
+
+                    fetchTopArtists(SpotifyManager.TopItemType.artists, "medium_term", 20, new CompletionListener() {
+                        @Override
+                        public void onComplete(String result) throws IOException {
+                            Log.d("Size!!", topArtistsMedium.get(0).getName());
+                            String name = topArtistsMedium.get(0).getName();
+                            String url = topArtistsMedium.get(0).getArtistImageUrl();
                             Log.d("URL!!", url);
 
 //                            Intent intent = new Intent(context, ProfileActivity.class);
@@ -347,10 +425,33 @@ public class SpotifyManager {
                         }
                     });
 
-                    SpotifyManager.getInstance(context).fetchTopTracks(SpotifyManager.TopItemType.tracks, "", 20, new CompletionListener() {
+                    fetchTopArtists(SpotifyManager.TopItemType.artists, "long_term", 20, new CompletionListener() {
                         @Override
                         public void onComplete(String result) throws IOException {
-                            Log.d("Size!!", SpotifyManager.getInstance(context).topTracks.size() + "");
+                            Log.d("Size!!", topArtistsLong.get(0).getName());
+                            String name = topArtistsLong.get(0).getName();
+                            String url = topArtistsLong.get(0).getArtistImageUrl();
+                            Log.d("URL!!", url);
+
+//                            Intent intent = new Intent(context, ProfileActivity.class);
+//                            startActivity(intent, activity);
+
+                            /*Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);*/
+                            /*startActivity(intent);*/
+                            /*finish();*/
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+
+                        }
+                    });
+
+
+                    SpotifyManager.getInstance(context).fetchTopTracks(SpotifyManager.TopItemType.tracks, "short_term", 20, new CompletionListener() {
+                        @Override
+                        public void onComplete(String result) throws IOException {
+                            Log.d("Size!!", SpotifyManager.getInstance(context).topTracksShort.size() + "");
 //                String name = SpotifyManager.getInstance(getApplicationContext()).topTracks.get(0).;
 //                String url = SpotifyManager.getInstance(getApplicationContext()).topArtists.get(0).getArtistImageUrl();
 //                Log.d("URL!!", url);
@@ -364,7 +465,44 @@ public class SpotifyManager {
 
                         }});
 
-                } catch (Exception e) {
+                    SpotifyManager.getInstance(context).fetchTopTracks(SpotifyManager.TopItemType.tracks, "medium_term", 20, new CompletionListener() {
+                        @Override
+                        public void onComplete(String result) throws IOException {
+                            Log.d("Size!!", SpotifyManager.getInstance(context).topTracksMedium.size() + "");
+//                String name = SpotifyManager.getInstance(getApplicationContext()).topTracks.get(0).;
+//                String url = SpotifyManager.getInstance(getApplicationContext()).topArtists.get(0).getArtistImageUrl();
+//                Log.d("URL!!", url);
+                            /*Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);*/
+                            /*startActivity(intent);*/
+                            /*finish();*/
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+
+                        }});
+
+                    SpotifyManager.getInstance(context).fetchTopTracks(SpotifyManager.TopItemType.tracks, "long_term", 20, new CompletionListener() {
+                        @Override
+                        public void onComplete(String result) throws IOException {
+                            Log.d("Size!!", SpotifyManager.getInstance(context).topTracksLong.size() + "");
+//                String name = SpotifyManager.getInstance(getApplicationContext()).topTracks.get(0).;
+//                String url = SpotifyManager.getInstance(getApplicationContext()).topArtists.get(0).getArtistImageUrl();
+//                Log.d("URL!!", url);
+                            /*Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);*/
+                            /*startActivity(intent);*/
+                            /*finish();*/
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+
+                        }});
+
+
+
+                }
+                catch (Exception e) {
                     Log.d("JSON", "Failed to parse data: " + e);
 //                    Toast.makeText(SpotifyLoginActivity.this, "Failed to parse data, watch Logcat for more details",
 //                            Toast.LENGTH_SHORT).show();

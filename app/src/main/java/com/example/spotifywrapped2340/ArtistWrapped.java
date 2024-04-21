@@ -1,11 +1,15 @@
 package com.example.spotifywrapped2340;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,7 +18,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bumptech.glide.Glide;
+import com.example.spotifywrapped2340.ObjectStructures.Artist;
+import com.example.spotifywrapped2340.ObjectStructures.Track;
 import com.example.spotifywrapped2340.SpotifyDataManagers.SpotifyManager;
+
+import java.util.ArrayList;
 
 import jp.shts.android.storiesprogressview.StoriesProgressView;
 
@@ -26,9 +34,13 @@ public class ArtistWrapped extends AppCompatActivity implements StoriesProgressV
     private TextView trackName;
     private TextView artistName;
 
+    private Spinner timeRangeSpinner;
+
     private int currentIndex = 0;
 
     private ImageView imageView;
+
+    private ArrayList<Artist> topArtists = SpotifyManager.topArtistsShort; //change if necessary
 
 
     @Override
@@ -50,9 +62,52 @@ public class ArtistWrapped extends AppCompatActivity implements StoriesProgressV
         imageView = (ImageView) findViewById(R.id.mainImage);
         Button backButton = (Button) findViewById(R.id.wrapped_return_button);
 
+        timeRangeSpinner = findViewById(R.id.timeRangeSpinner);
+        String[] timeRanges = {"Short Term", "Medium Term", "Long Term"};
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, timeRanges);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        timeRangeSpinner.setAdapter(adapter);
+
+
+        SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        int selectedItemPosition = preferences.getInt("selectedItemPosition", 0);
+        timeRangeSpinner.setSelection(selectedItemPosition);
+
+        timeRangeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                // Handle selection
+                String selectedTimeRange = timeRanges[position];
+                SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putInt("selectedItemPosition", position);
+                editor.apply();
+                if (selectedTimeRange.equals("Short Term")) {
+                    topArtists = SpotifyManager.topArtistsShort;
+                    trackName.setText(topArtists.get(currentIndex).getName());
+                    Glide.with(ArtistWrapped.this).load(topArtists.get(currentIndex).getArtistImageUrl()).into(imageView);
+                } else if (selectedTimeRange.equals("Medium Term")) {
+                    topArtists = SpotifyManager.topArtistsMedium;
+                    trackName.setText(topArtists.get(currentIndex).getName());
+                    Glide.with(ArtistWrapped.this).load(topArtists.get(currentIndex).getArtistImageUrl()).into(imageView);
+                } else if (selectedTimeRange.equals("Long Term")) {
+                    topArtists = SpotifyManager.topArtistsLong;
+                    trackName.setText(topArtists.get(currentIndex).getName());
+                    Glide.with(ArtistWrapped.this).load(topArtists.get(currentIndex).getArtistImageUrl()).into(imageView);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                String selectedTimeRange = timeRanges[0];
+            }
+        });
+
         artistName.setText("#" + (currentIndex + 1));
-        trackName.setText(SpotifyManager.topArtists.get(currentIndex).getName());
-        Glide.with(ArtistWrapped.this).load(SpotifyManager.topArtists.get(currentIndex).getArtistImageUrl()).into(imageView);
+
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,6 +115,8 @@ public class ArtistWrapped extends AppCompatActivity implements StoriesProgressV
                 startActivity(intent);
             }
         });
+
+
 
 
 
@@ -78,8 +135,8 @@ public class ArtistWrapped extends AppCompatActivity implements StoriesProgressV
     public void onNext() {
         currentIndex++;
         artistName.setText("#" + (currentIndex + 1));
-        trackName.setText(SpotifyManager.topArtists.get(currentIndex).getName());
-        Glide.with(ArtistWrapped.this).load(SpotifyManager.topArtists.get(currentIndex).getArtistImageUrl()).into(imageView);
+        trackName.setText(topArtists.get(currentIndex).getName());
+        Glide.with(ArtistWrapped.this).load(topArtists.get(currentIndex).getArtistImageUrl()).into(imageView);
 
     }
 
