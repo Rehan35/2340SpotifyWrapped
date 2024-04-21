@@ -2,11 +2,13 @@ package com.example.spotifywrapped2340;
 
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bumptech.glide.Glide;
 import com.example.spotifywrapped2340.SpotifyDataManagers.SpotifyManager;
@@ -34,6 +36,8 @@ public class ArtistWrapped extends AppCompatActivity implements StoriesProgressV
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wrapped);
+        ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.wrapped);
+        layout.setBackgroundResource(R.drawable.artists_activity_gradient);
         topLabel = (TextView) findViewById(R.id.topLabel);
         topLabel.setText("Top Artists!");
 

@@ -7,17 +7,13 @@ import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.spotifywrapped2340.Firebase.FirebaseManager;
 import com.example.spotifywrapped2340.ObjectStructures.Artist;
 import com.example.spotifywrapped2340.ObjectStructures.SpotifyUser;
 import com.example.spotifywrapped2340.ObjectStructures.Track;
-import com.example.spotifywrapped2340.ProfileActivity;
 import com.example.spotifywrapped2340.util.CompletionListener;
-import com.google.firebase.auth.FirebaseAuth;
 import com.spotify.sdk.android.auth.AuthorizationRequest;
 import com.spotify.sdk.android.auth.AuthorizationResponse;
 
-import org.checkerframework.checker.units.qual.A;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -28,7 +24,6 @@ import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -81,7 +76,7 @@ public class SpotifyManager {
         tracks
     }
 
-    public ArrayList<Artist> fetchTopTracks(TopItemType type, String time_range, int limit) {
+    public ArrayList<Artist> fetchTopTracks(TopItemType type, String time_range, int limit, CompletionListener completionListener) {
         ArrayList<Artist> artistsList = new ArrayList<Artist>();
         final Request request = new Request.Builder()
                 .url("https://api.spotify.com/v1/me/top/" + type.toString())
@@ -282,6 +277,23 @@ public class SpotifyManager {
 
                         }
                     });
+
+                    SpotifyManager.getInstance(context).fetchTopTracks(SpotifyManager.TopItemType.tracks, "", 20, new CompletionListener() {
+                        @Override
+                        public void onComplete(String result) throws IOException {
+                            Log.d("Size!!", SpotifyManager.getInstance(context).topTracks.size() + "");
+//                String name = SpotifyManager.getInstance(getApplicationContext()).topTracks.get(0).;
+//                String url = SpotifyManager.getInstance(getApplicationContext()).topArtists.get(0).getArtistImageUrl();
+//                Log.d("URL!!", url);
+                            /*Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);*/
+                            /*startActivity(intent);*/
+                            /*finish();*/
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+
+                        }});
 
                 } catch (Exception e) {
                     Log.d("JSON", "Failed to parse data: " + e);
