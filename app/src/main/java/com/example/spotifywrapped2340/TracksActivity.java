@@ -102,7 +102,6 @@ public class TracksActivity extends AppCompatActivity implements StoriesProgress
         trackName.setText(SpotifyManager.topTracks.get(currentIndex).getTrackName());
         saveButton = (Button) findViewById(R.id.save_button);
 
-        String[] choices = {"Item One", "Item Two", "Item Three"};
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         AlertDialog.Builder builder = new AlertDialog.Builder(TracksActivity.this);
         final EditText edittext = new EditText(TracksActivity.this);
