@@ -63,7 +63,7 @@ public class ProfileActivity extends AppCompatActivity {
                 new ProfileGridItem("Artists", R.drawable.artists_placeholder_card, new ArtistWrapped()),
                 new ProfileGridItem("Playlists", R.drawable.playlists_placeholder_card, new TracksActivity()),
                 new ProfileGridItem("Lyrics", R.drawable.lyrics_placeholder_card, new TracksActivity()),
-                new ProfileGridItem("For You", R.drawable.foryou_placeholder_card, new TracksActivity()),
+                new ProfileGridItem("For You", R.drawable.foryou_placeholder_card, new ForYouActivity()),
                 new ProfileGridItem("Browse", R.drawable.browse_placeholder_card, new TracksActivity())
         };
 
