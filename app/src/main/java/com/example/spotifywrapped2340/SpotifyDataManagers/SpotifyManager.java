@@ -35,7 +35,7 @@ public class SpotifyManager {
 
     public static final String CLIENT_ID = "3f2eac4dbbb0498194d8b5d955949c1a";
     public static final String REDIRECT_URI = "spotify-wrapped-2340://auth";
-    private static String mAccessToken = "BQCpOif0GgNuBhAKGREhNOMEDXVYG4dLo8p1WsAG3ddIODtyXrKjW1fr91aq2DTBIXfyj2l1FOr_hPacKlrYvUgTbVrBDrOt2d5G-ONWtYtBdqyH5ZOQ5fcYspFBVcp86pdygSBJ1aGzPGf4GMZxgL32RGKslukQLWlLVQ99JX52pJKTF-HM3PJ8Z5dFcasqPcioCneUDLMKBjFLK7HUHTW7KBse9VfH1EmmSPCMlpZCKS4";
+    private static String mAccessToken;
 
     private static String mAccessCode;
 
@@ -439,6 +439,18 @@ public class SpotifyManager {
         });
     }
 
+
+    public ArrayList<Track> getTopTracks() {
+        return topTracks;
+    }
+
+    public ArrayList<Artist> getTopArtists() {
+        return topArtists;
+    }
+
+    public String getAccessToken() {
+        return mAccessToken;
+    }
 
     public void getUserProfile(Activity activity) {
         if (mAccessToken == null) {

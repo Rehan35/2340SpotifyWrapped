@@ -84,35 +84,6 @@ public class TracksActivity extends AppCompatActivity implements StoriesProgress
         ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.wrapped);
         layout.setBackgroundResource(R.drawable.tracks_activity_gradient);
 
-//        layout.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                float x = event.getX();
-//
-//                if (x < layout.getWidth() / 2) {
-//                    // Touched left side of the screen
-//                } else {
-//                    // Touched right side of the screen
-//                }
-//                return true;
-//            }
-//        });
-
-        layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                float x = v.getX();
-
-                if (x < layout.getWidth() / 2) {
-                    // Touched left side of the screen
-                    Log.d("LEFT SIDE TAPPED", "LEFT");
-                } else {
-                    // Touched right side of the screen
-                    Log.d("RIGHT SIDE TAPPED", "RIGHT");
-                }
-            }
-        });
-
         ConnectionParams connectionParams =
                 new ConnectionParams.Builder("3f2eac4dbbb0498194d8b5d955949c1a")
                         .setRedirectUri("spotify-wrapped-2340://auth")
@@ -263,7 +234,12 @@ public class TracksActivity extends AppCompatActivity implements StoriesProgress
 
     @Override
     public void onPrev() {
-        Toast.makeText(this, "onPrev", Toast.LENGTH_SHORT).show();
+        // Call when finished revserse animation.
+//        Toast.makeText(this, "onPrev", Toast.LENGTH_SHORT).show();
+        currentIndex--;
+        artistName.setText("#" + (currentIndex + 1));
+        trackName.setText(SpotifyManager.topTracks.get(currentIndex).getTrackName());
+        Glide.with(TracksActivity.this).load(SpotifyManager.topTracks.get(currentIndex).getAlbumCoverURL()).into(imageView);
     }
 
     @Override

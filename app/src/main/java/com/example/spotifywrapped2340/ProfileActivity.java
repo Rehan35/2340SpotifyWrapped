@@ -59,7 +59,10 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_activity);
-        getToken();
+
+        if (SpotifyManager.getInstance(getApplicationContext()).getAccessToken() == null) {
+            getToken();
+        }
 
         ImageButton settingsButton = findViewById(R.id.settings_button);
         settingsButton.setOnClickListener(v -> {
@@ -71,9 +74,9 @@ public class ProfileActivity extends AppCompatActivity {
         ProfileGridItem[] gridItems = new ProfileGridItem[]{
                 new ProfileGridItem("Tracks", R.drawable.tracks_placeholder_card_image, new TracksActivity()),
                 new ProfileGridItem("Artists", R.drawable.artists_placeholder_card, new ArtistWrapped()),
-                new ProfileGridItem("Past Tracks", R.drawable.playlists_placeholder_card, new SavedTrackWrappedActivity()),
-                new ProfileGridItem("Past Artists", R.drawable.lyrics_placeholder_card, new SavedArtistWrappedActivity()),
-                new ProfileGridItem("For You", R.drawable.foryou_placeholder_card, new ForYouActivity()),
+                new ProfileGridItem("Play a Game", R.drawable.playlists_placeholder_card, new GameActivity()),
+                new ProfileGridItem("Lyrics", R.drawable.lyrics_placeholder_card, new TracksActivity()),
+                new ProfileGridItem("For You", R.drawable.foryou_placeholder_card, new TracksActivity()),
                 new ProfileGridItem("Browse", R.drawable.browse_placeholder_card, new TracksActivity())
         };
 

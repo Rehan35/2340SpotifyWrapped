@@ -7,4 +7,6 @@
     <color name="spotifyOffGreen">#2C6B21</color>
     <color name="clear">#F4FAFC</color>
     <color name="red">#EE4B2B</color>
+    <color name="game_button">#566B1680</color>
+    <color name="clear_opacity">#00000000</color>
 </resources>
