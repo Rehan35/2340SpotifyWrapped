@@ -14,9 +14,11 @@ import com.bumptech.glide.Glide;
 import com.example.spotifywrapped2340.SpotifyDataManagers.SpotifyManager;
 
 import jp.shts.android.storiesprogressview.StoriesProgressView;    import com.example.spotifywrapped2340.SpotifyDataManagers.SpotifyManager;
+import com.spotify.android.appremote.api.*;
 import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
-import com.spotify.android.appremote.api.SpotifyAppRemote;
+import com.spotify.android.appremote.api.SpotifyAppRemote;import com.spotify.android.appremote.api.ConnectionParams;
+
 
 
 public class TracksActivity extends AppCompatActivity implements StoriesProgressView.StoriesListener{
@@ -46,6 +48,7 @@ public class TracksActivity extends AppCompatActivity implements StoriesProgress
 
         ConnectionParams connectionParams =
                 new ConnectionParams.Builder("3f2eac4dbbb0498194d8b5d955949c1a")
+                        .setRedirectUri("spotify-wrapped-2340://auth")
                         .showAuthView(true)
                         .build();
         SpotifyAppRemote.connect(this, connectionParams, new Connector.ConnectionListener() {
@@ -54,10 +57,8 @@ public class TracksActivity extends AppCompatActivity implements StoriesProgress
                 obj = spotifyAppRemote;
                 Log.d("MainActivity", "Connected to Spotify!");
 
-                // Now you can use mSpotifyAppRemote to control playback, etc.
                 playTrack("spotify:track:4uLU6hMCjMI75M1A2tKUQC");
             }
-
             @Override
             public void onFailure(Throwable error) {
                 Log.e("MainActivity", "Failed to connect to Spotify", error);
