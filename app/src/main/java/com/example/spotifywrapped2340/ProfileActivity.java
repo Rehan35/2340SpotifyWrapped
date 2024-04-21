@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
+import com.example.spotifywrapped2340.ObjectStructures.SpotifyUser;
 import com.example.spotifywrapped2340.ObjectStructures.Track;
 import com.example.spotifywrapped2340.SpotifyDataManagers.SpotifyManager;
 import com.example.spotifywrapped2340.UIHelpers.ProfileGridItem;
@@ -172,38 +173,28 @@ public class ProfileActivity extends AppCompatActivity {
 //            startActivity(intent);
             Log.d("TOKEN SUCCESS", response.getAccessToken());
             SpotifyManager.setAccessToken(response.getAccessToken());
-            SpotifyManager.getInstance(getApplicationContext()).getUserProfile(this);
+            SpotifyManager.getInstance(getApplicationContext()).getUserProfile(this, new CompletionListener() {
+                @Override
+                public void onComplete(String result) throws IOException {
+                    TextView displayNameTextView = findViewById(R.id.display_name_text);
+                    TextView followersTextView = findViewById(R.id.followers_text);
+                    ImageView profileImageView = findViewById(R.id.profile_image_view);
+
+                    displayNameTextView.setText(SpotifyManager.user.getName());
+                    followersTextView.setText(SpotifyManager.user.getFollowers() + " Followers");
+
+                    if (SpotifyManager.user.getProfileImageUrl() != null) {
+                        Glide.with(ProfileActivity.this).load(SpotifyManager.user.getProfileImageUrl()).into(profileImageView);
+                    } else {
+                        Glide.with(ProfileActivity.this).load(R.drawable.default_profile).into(profileImageView);
+                    }
+                }
+
+                @Override
+                public void onError(Exception e) {
+
+                }
+            });
         }
     }
-    public void updateProfileViews(String jsonData) {
-        try {
-            JSONObject jsonObject = new JSONObject(jsonData);
-            String displayName = jsonObject.getString("display_name");
-            int followersCount = jsonObject.getJSONObject("followers").getInt("total");
-            String profileImageUrl = null;
-
-            JSONArray imagesArray = jsonObject.getJSONArray("images");
-            if (imagesArray.length() > 0) {
-                profileImageUrl = imagesArray.getJSONObject(0).getString("url");
-            }
-
-            TextView displayNameTextView = findViewById(R.id.display_name_text);
-            TextView followersTextView = findViewById(R.id.followers_text);
-            ImageView profileImageView = findViewById(R.id.profile_image_view);
-
-            displayNameTextView.setText(displayName);
-            followersTextView.setText(followersCount + " Followers");
-
-            if (profileImageUrl != null) {
-                Glide.with(this).load(profileImageUrl).into(profileImageView);
-            } else {
-                Glide.with(this).load(R.drawable.default_profile).into(profileImageView);
-            }
-        } catch (JSONException e) {
-            Toast.makeText(this, "Failed to parse user data", Toast.LENGTH_LONG).show();
-        }
-    }
-
-
-
 }

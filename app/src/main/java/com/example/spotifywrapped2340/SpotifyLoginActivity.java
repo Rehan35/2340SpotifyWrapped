@@ -16,6 +16,7 @@ import com.example.spotifywrapped2340.Firebase.FirebaseManager;
 import com.example.spotifywrapped2340.ObjectStructures.SpotifyUser;
 import com.example.spotifywrapped2340.SpotifyDataManagers.JsonReader;
 import com.example.spotifywrapped2340.SpotifyDataManagers.SpotifyManager;
+import com.example.spotifywrapped2340.util.CompletionListener;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -92,9 +93,19 @@ public class SpotifyLoginActivity extends AppCompatActivity {
 //            startActivity(intent);
             Log.d("TOKEN SUCCESS", response.getAccessToken());
             SpotifyManager.setAccessToken(response.getAccessToken());
-            SpotifyManager.getInstance(getApplicationContext()).getUserProfile(this);
-            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-            startActivity(intent);
+            SpotifyManager.getInstance(getApplicationContext()).getUserProfile(this, new CompletionListener() {
+                @Override
+                public void onComplete(String result) throws IOException {
+                    Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+
+                @Override
+                public void onError(Exception e) {
+
+                }
+            });
         }
     }
 

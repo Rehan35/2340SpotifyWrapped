@@ -39,7 +39,7 @@ public class SpotifyManager {
 
     private static String mAccessCode;
 
-    public SpotifyUser user;
+    public static SpotifyUser user;
 
     private final static OkHttpClient mOkHttpClient = new OkHttpClient();
     private static Call mCall;
@@ -514,7 +514,7 @@ public class SpotifyManager {
         return null;
     }
 
-    public void getUserProfile(Activity activity) {
+    public void getUserProfile(Activity activity, CompletionListener loadedUserCompletion) {
         if (mAccessToken == null) {
             Toast.makeText(context, "You need to get an access token first!", Toast.LENGTH_SHORT).show();
             return;
@@ -560,6 +560,8 @@ public class SpotifyManager {
                     FirebaseAuth mAuth = FirebaseAuth.getInstance();
 //
                     user.populateUserData(responseString, mAuth.getUid());
+
+                    loadedUserCompletion.onComplete("Loaded User Successfully");
 
                     String[] timeRanges = new String[]{"short_term", "medium_term", "long_term"};
 
