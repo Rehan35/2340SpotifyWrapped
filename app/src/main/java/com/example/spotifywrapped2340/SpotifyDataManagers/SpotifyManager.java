@@ -218,6 +218,58 @@ public class SpotifyManager {
         });
     }
 
+    public void fetchRelatedArtists(String artistId, CompletionListener completionListener) {
+        final String url = "https://api.spotify.com/v1/artists/" + artistId + "/related-artists";
+        final Request request = new Request.Builder()
+                .url(url)
+                .addHeader("Authorization", "Bearer " + mAccessToken)
+                .build();
+
+        cancelCall(); // Optionally cancel previous calls
+        mCall = mOkHttpClient.newCall(request);
+
+        mCall.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("HTTP", "Failed to fetch related artists: " + e);
+                Toast.makeText(context, "Failed to fetch related artists, watch Logcat for more details",
+                        Toast.LENGTH_SHORT).show();
+                completionListener.onError(e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    if (response.isSuccessful() && response.body() != null) {
+                        String responseString = response.body().string();
+                        JSONObject jsonResponse = new JSONObject(responseString);
+                        JSONArray artists = jsonResponse.getJSONArray("artists");
+                        ArrayList<Artist> relatedArtists = new ArrayList<>();
+
+                        for (int i = 0; i < artists.length(); i++) {
+                            JSONObject artist = artists.getJSONObject(i);
+                            String id = artist.getString("id");
+                            String name = artist.getString("name");
+                            JSONArray images = artist.getJSONArray("images");
+                            String imageUrl = images.getJSONObject(0).getString("url");
+
+                            relatedArtists.add(new Artist(id, name, imageUrl, 0, new ArrayList<>()));
+                        }
+
+                        topArtists.addAll(relatedArtists); // Optionally add to your top artists list
+                        completionListener.onComplete("Fetched related artists successfully!");
+                    } else {
+                        throw new IOException("Unexpected code " + response);
+                    }
+                } catch (Exception e) {
+                    Log.d("JSON", "Failed to parse data: " + e);
+                    completionListener.onError(e);
+                }
+            }
+        });
+    }
+
+
     public void getUserProfile(Activity activity) {
         if (mAccessToken == null) {
             Toast.makeText(context, "You need to get an access token first!", Toast.LENGTH_SHORT).show();
