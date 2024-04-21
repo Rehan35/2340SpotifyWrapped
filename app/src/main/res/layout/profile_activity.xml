@@ -33,7 +33,7 @@
         android:id="@+id/profile_image_view"
         android:layout_width="45dp"
         android:layout_height="45dp"
-        android:src="@drawable/test_profile_image"
+        android:src="@drawable/default_profile"
         android:scaleType="centerCrop"
         android:clipToOutline="true"
         android:layout_below="@+id/profile_text"
@@ -55,7 +55,7 @@
             android:fontFamily="@font/akaya_telivigala"
             android:textColor="@color/black"
             android:textSize="20sp"
-            android:text="Rehan"/>
+            android:text="Loading user..."/>
         <TextView
             android:id="@+id/followers_text"
             android:layout_width="wrap_content"
@@ -66,7 +66,7 @@
             android:fontFamily="@font/akaya_telivigala"
             android:textColor="@color/black"
             android:textSize="14sp"
-            android:text="4 Followers"/>
+            android:text="... Followers"/>
         <ImageButton
             android:layout_width="150dp"
             android:layout_height="50dp"
