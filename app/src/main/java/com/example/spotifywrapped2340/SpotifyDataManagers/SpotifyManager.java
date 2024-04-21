@@ -123,6 +123,14 @@ public class SpotifyManager {
     }
 
     public ArrayList<Artist> forYouArtists() {
+        String seedArtists = "";
+        String seedTracks = "";
+
+        for (int i = 0; i < 5; i++) {
+            seedArtists += (i != 0 ? ", " : "") + topArtists.get(i).getArtistId();
+            seedTracks += (i != 0 ? ", " : "") + topTracks.get(i).getTrackId();
+        }
+
         return null;
     }
 
@@ -182,6 +190,7 @@ public class SpotifyManager {
                         JSONObject track = albums.getJSONObject(i);
 
                         String trackName = track.getString("name");
+                        String trackId = track.getString("id");
 
 
                         JSONArray artists = album.getJSONArray("artists");
@@ -192,7 +201,7 @@ public class SpotifyManager {
                         String albumCoverImageURL = images.getJSONObject(0).getString("url");
                         Log.d("Album Data", albumType + " " + totalTracks + " " + trackName + " " + artistId + " " + albumCoverImageURL + " " + albumName);
 
-                        Track newTrack = new Track(artistId, trackName, artistName, albumType, albumCoverImageURL, albumName);
+                        Track newTrack = new Track(artistId, trackName, artistName, albumType, albumCoverImageURL, albumName, trackId);
 
                         if (time_range.equals("short_term")) {
                             topTracksShort.add(newTrack);
