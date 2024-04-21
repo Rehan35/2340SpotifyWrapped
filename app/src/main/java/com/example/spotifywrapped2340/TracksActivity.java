@@ -1,6 +1,9 @@
 package com.example.spotifywrapped2340;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +23,7 @@ public class TracksActivity extends AppCompatActivity implements StoriesProgress
     private TextView topLabel;
     private TextView trackName;
     private TextView artistName;
+    private Button backButton;
     private int currentIndex = 0;
 
     private ImageView imageView;
@@ -40,11 +44,18 @@ public class TracksActivity extends AppCompatActivity implements StoriesProgress
         trackName = (TextView) findViewById(R.id.trackLabel);
         artistName = (TextView) findViewById(R.id.artistLabel);
         imageView = (ImageView) findViewById(R.id.mainImage);
+        backButton = (Button) findViewById(R.id.wrapped_return_button);
 
         artistName.setText("#" + (currentIndex + 1));
         trackName.setText(SpotifyManager.topTracks.get(currentIndex).getTrackName());
         Glide.with(TracksActivity.this).load(SpotifyManager.topTracks.get(currentIndex).getAlbumCoverURL()).into(imageView);
-
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TracksActivity.this, ProfileActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
 
