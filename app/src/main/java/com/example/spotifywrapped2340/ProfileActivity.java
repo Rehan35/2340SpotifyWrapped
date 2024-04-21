@@ -48,6 +48,10 @@ public class ProfileActivity extends AppCompatActivity {
     private GridLayout gridLayout;
     String apiKey = "AIzaSyAFav3XHHlyWER68mm9GuQ-C7WL5z7aQWI";
 
+    TextView displayNameTextView;
+    TextView followersTextView;
+    ImageView profileImageView;
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -63,6 +67,21 @@ public class ProfileActivity extends AppCompatActivity {
 
         if (SpotifyManager.getInstance(getApplicationContext()).getAccessToken() == null) {
             getToken();
+        }
+
+        displayNameTextView = (TextView) findViewById(R.id.display_name_text);
+        followersTextView = (TextView) findViewById(R.id.followers_text);
+        profileImageView = (ImageView) findViewById(R.id.profile_image_view);
+
+        if (SpotifyManager.user != null) {
+            runOnUiThread(() -> {
+                displayNameTextView.setText(SpotifyManager.user.getName());
+                followersTextView.setText(SpotifyManager.user.getFollowers() + " Followers");
+
+                if (SpotifyManager.user.getProfileImageUrl() != null) {
+                    Glide.with(ProfileActivity.this).load(SpotifyManager.user.getProfileImageUrl()).into(profileImageView);
+                }
+            });
         }
 
         ImageButton settingsButton = findViewById(R.id.settings_button);
@@ -176,18 +195,19 @@ public class ProfileActivity extends AppCompatActivity {
             SpotifyManager.getInstance(getApplicationContext()).getUserProfile(this, new CompletionListener() {
                 @Override
                 public void onComplete(String result) throws IOException {
-                    TextView displayNameTextView = findViewById(R.id.display_name_text);
-                    TextView followersTextView = findViewById(R.id.followers_text);
-                    ImageView profileImageView = findViewById(R.id.profile_image_view);
 
-                    displayNameTextView.setText(SpotifyManager.user.getName());
-                    followersTextView.setText(SpotifyManager.user.getFollowers() + " Followers");
+                    SpotifyUser user = SpotifyManager.user;
 
-                    if (SpotifyManager.user.getProfileImageUrl() != null) {
-                        Glide.with(ProfileActivity.this).load(SpotifyManager.user.getProfileImageUrl()).into(profileImageView);
-                    } else {
-                        Glide.with(ProfileActivity.this).load(R.drawable.default_profile).into(profileImageView);
-                    }
+                    Log.d("REACHED COMPLETION", "Completion reached");
+
+                    runOnUiThread(() -> {
+                        displayNameTextView.setText(SpotifyManager.user.getName());
+                        followersTextView.setText(SpotifyManager.user.getFollowers() + " Followers");
+
+                        if (SpotifyManager.user.getProfileImageUrl() != null) {
+                            Glide.with(ProfileActivity.this).load(SpotifyManager.user.getProfileImageUrl()).into(profileImageView);
+                        }
+                    });
                 }
 
                 @Override
@@ -197,34 +217,34 @@ public class ProfileActivity extends AppCompatActivity {
             });
         }
     }
-    public void updateProfileViews(String jsonData) {
-        try {
-            JSONObject jsonObject = new JSONObject(jsonData);
-            String displayName = jsonObject.getString("display_name");
-            int followersCount = jsonObject.getJSONObject("followers").getInt("total");
-            String profileImageUrl = null;
-
-            JSONArray imagesArray = jsonObject.getJSONArray("images");
-            if (imagesArray.length() > 0) {
-                profileImageUrl = imagesArray.getJSONObject(0).getString("url");
-            }
-
-            TextView displayNameTextView = findViewById(R.id.display_name_text);
-            TextView followersTextView = findViewById(R.id.followers_text);
-            ImageView profileImageView = findViewById(R.id.profile_image_view);
-
-            displayNameTextView.setText(displayName);
-            followersTextView.setText(followersCount + " Followers");
-
-            if (profileImageUrl != null) {
-                Glide.with(this).load(profileImageUrl).into(profileImageView);
-            } else {
-                Glide.with(this).load(R.drawable.default_profile).into(profileImageView);
-            }
-        } catch (JSONException e) {
-            Toast.makeText(this, "Failed to parse user data", Toast.LENGTH_LONG).show();
-        }
-    }
+//    public void updateProfileViews(String jsonData) {
+//        try {
+//            JSONObject jsonObject = new JSONObject(jsonData);
+//            String displayName = jsonObject.getString("display_name");
+//            int followersCount = jsonObject.getJSONObject("followers").getInt("total");
+//            String profileImageUrl = null;
+//
+//            JSONArray imagesArray = jsonObject.getJSONArray("images");
+//            if (imagesArray.length() > 0) {
+//                profileImageUrl = imagesArray.getJSONObject(0).getString("url");
+//            }
+//
+//            TextView displayNameTextView = findViewById(R.id.display_name_text);
+//            TextView followersTextView = findViewById(R.id.followers_text);
+//            ImageView profileImageView = findViewById(R.id.profile_image_view);
+//
+//            displayNameTextView.setText(displayName);
+//            followersTextView.setText(followersCount + " Followers");
+//
+//            if (profileImageUrl != null) {
+//                Glide.with(this).load(profileImageUrl).into(profileImageView);
+//            } else {
+//                Glide.with(this).load(R.drawable.default_profile).into(profileImageView);
+//            }
+//        } catch (JSONException e) {
+//            Toast.makeText(this, "Failed to parse user data", Toast.LENGTH_LONG).show();
+//        }
+//    }
 
 
 

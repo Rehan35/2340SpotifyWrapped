@@ -3,9 +3,11 @@ package com.example.spotifywrapped2340.ObjectStructures;
 import android.util.Log;
 
 import com.example.spotifywrapped2340.SpotifyDataManagers.JsonReader;
+import com.example.spotifywrapped2340.util.CompletionListener;
 
 import org.json.JSONException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -18,11 +20,11 @@ public class SpotifyUser extends User {
 
     public SpotifyUser() {
         super();
-        this.setSpotifyId(null);
-        this.setRefreshToken(null);
-        this.setProfileImageUrl(null);
-        this.setFollowers(null);
-        this.setEmail(null);
+        this.setSpotifyId("");
+        this.setRefreshToken("");
+        this.setProfileImageUrl("");
+        this.setFollowers(0);
+        this.setEmail("");
     }
 
     public SpotifyUser(String spotifyId, String refreshToken, String profileImageUrl, Integer followers, String email) {
@@ -32,7 +34,6 @@ public class SpotifyUser extends User {
         this.setFollowers(followers);
         this.setEmail(email);
     }
-
 
     public String getSpotifyId() {
         return spotifyId;
@@ -66,13 +67,14 @@ public class SpotifyUser extends User {
         this.followers = followers;
     }
 
-    public void populateUserData(String jsonString, String googleId) {
+    public void populateUserData(String jsonString, String googleId, CompletionListener completionListener) throws IOException {
         try {
+            Log.d("User JSON", jsonString);
             JsonReader reader = new JsonReader(jsonString);
 
             String name = reader.getStringValue("display_name");
             String id = reader.getStringValue("id");
-            setName(name);
+            this.setName(name);
             this.setSpotifyId((String) id);
 
 
@@ -99,6 +101,7 @@ public class SpotifyUser extends User {
             this.setUserId(googleId);
 
             Log.d("Spotify User", this.toString());
+            completionListener.onComplete("Loaded User Successfully");
 
         } catch (JSONException e) {
 

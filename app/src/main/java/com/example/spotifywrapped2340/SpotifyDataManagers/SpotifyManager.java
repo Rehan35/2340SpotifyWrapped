@@ -544,11 +544,11 @@ public class SpotifyManager {
                 }
                 String responseString = response.body().string();
 
-                if (activity instanceof ProfileActivity) {
-                    activity.runOnUiThread(() -> {
-                        ((ProfileActivity) activity).updateProfileViews(responseString);
-                    });
-                }
+//                if (activity instanceof ProfileActivity) {
+//                    activity.runOnUiThread(() -> {
+//                        ((ProfileActivity) activity).updateProfileViews(responseString);
+//                    });
+//                }
                 try {
 
                     /*String responseString = response.body().string();*/
@@ -559,9 +559,7 @@ public class SpotifyManager {
 
                     FirebaseAuth mAuth = FirebaseAuth.getInstance();
 //
-                    user.populateUserData(responseString, mAuth.getUid());
-
-                    loadedUserCompletion.onComplete("Loaded User Successfully");
+                    user.populateUserData(responseString, mAuth.getUid(), loadedUserCompletion);
 
                     String[] timeRanges = new String[]{"short_term", "medium_term", "long_term"};
 
