@@ -75,9 +75,9 @@ public class ProfileActivity extends AppCompatActivity {
                 new ProfileGridItem("Tracks", R.drawable.tracks_placeholder_card_image, new TracksActivity()),
                 new ProfileGridItem("Artists", R.drawable.artists_placeholder_card, new ArtistWrapped()),
                 new ProfileGridItem("Play a Game", R.drawable.playlists_placeholder_card, new GameActivity()),
-                new ProfileGridItem("Lyrics", R.drawable.lyrics_placeholder_card, new TracksActivity()),
+                new ProfileGridItem("Past Tracks", R.drawable.spotify_wrapped_login_logo, new SavedTrackWrappedActivity()),
                 new ProfileGridItem("For You", R.drawable.foryou_placeholder_card, new TracksActivity()),
-                new ProfileGridItem("Browse", R.drawable.browse_placeholder_card, new TracksActivity())
+                new ProfileGridItem("Past Artist", R.drawable.browse_placeholder_card, new SavedArtistWrappedActivity())
         };
 
         updateGridLayout(gridItems);
