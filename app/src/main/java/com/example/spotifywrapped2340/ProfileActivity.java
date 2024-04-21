@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.example.spotifywrapped2340.ObjectStructures.Track;
 import com.example.spotifywrapped2340.SpotifyDataManagers.SpotifyManager;
 import com.example.spotifywrapped2340.UIHelpers.ProfileGridItem;
 import com.example.spotifywrapped2340.util.CompletionListener;
@@ -30,6 +31,8 @@ import com.spotify.sdk.android.auth.AuthorizationClient;
 import com.spotify.sdk.android.auth.AuthorizationRequest;
 import com.spotify.sdk.android.auth.AuthorizationResponse;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executor;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -69,10 +72,24 @@ public class ProfileActivity extends AppCompatActivity {
 
         updateGridLayout(gridItems);
 
+        List<String> tracks = new ArrayList<>();
+        for (Track track : SpotifyManager.topTracks) {
+            tracks.add(track.getTrackName());
+        }
+
+        String result = "";
+        int count = Math.min(tracks.size(), 4);
+        for (int i = 0; i < count; i++) {
+            result += tracks.get(i);
+            if (i < count - 1) {
+                result += ", ";
+            }
+        }
+
         GenerativeModel gm = new GenerativeModel("gemini-pro", apiKey);
         GenerativeModelFutures model = GenerativeModelFutures.from(gm);
         Content content = new Content.Builder()
-                .addText("Write 4 word description about how someone acts, thinks, and dresses based on their favorite songs: I Was Wrong, Flower Shops, and Wasted on You")
+                .addText("Write just 4 words to describe how someone acts, thinks, and dresses based on their favorite songs: " + result)
                 .build();
 
         Executor executor = ContextCompat.getMainExecutor(this);
