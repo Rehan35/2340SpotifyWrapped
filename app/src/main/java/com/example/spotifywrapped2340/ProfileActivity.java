@@ -76,7 +76,7 @@ public class ProfileActivity extends AppCompatActivity {
                 new ProfileGridItem("Artists", R.drawable.artists_placeholder_card, new ArtistWrapped()),
                 new ProfileGridItem("Play a Game", R.drawable.playlists_placeholder_card, new GameActivity()),
                 new ProfileGridItem("Past Tracks", R.drawable.spotify_wrapped_login_logo, new SavedTrackWrappedActivity()),
-                new ProfileGridItem("For You", R.drawable.foryou_placeholder_card, new TracksActivity()),
+                new ProfileGridItem("For You", R.drawable.foryou_placeholder_card, new ForYouTracksActivity()),
                 new ProfileGridItem("Past Artist", R.drawable.browse_placeholder_card, new SavedArtistWrappedActivity())
         };
 

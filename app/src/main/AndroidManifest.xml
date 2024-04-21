@@ -83,26 +83,29 @@
             android:name=".MainActivity"
             android:exported="true"/>
         <activity
+            android:name=".ForYouTracksActivity"
+            android:exported="true"/>
+        <activity
             android:name=".GameActivity"
             android:exported="true"/>
         <activity
             android:name=".SpotifyLoginActivity"
-            android:exported="true"></activity>
+            android:exported="true"/>
         <activity
             android:name=".TracksActivity"
-            android:exported="true"></activity>
+            android:exported="true"/>
         <activity
             android:name=".ArtistsActivity"
-            android:exported="true"></activity>
+            android:exported="true"/>
         <activity
             android:name=".ForYouActivity"
-            android:exported="true"></activity>
+            android:exported="true"/>
         <activity
             android:name=".SavedTrackWrappedActivity"
-            android:exported="true"></activity>
+            android:exported="true"/>
         <activity
             android:name=".SavedArtistWrappedActivity"
-            android:exported="true"></activity>
+            android:exported="true"/>
 
         <meta-data
             android:name="preloaded_fonts"
