@@ -172,7 +172,13 @@ public class SpotifyManager {
                         JSONObject album = albums.getJSONObject(i).getJSONObject("album");
                         String albumType = album.getString("album_type");
                         int totalTracks = album.getInt("total_tracks");
-                        String name = album.getString("name");
+//                        String name = album.getString("name");
+
+                        JSONObject track = albums.getJSONObject(i);
+
+                        // Retrieve the track name from the track object
+                        String trackName = track.getString("name");
+
 
                         JSONArray artists = album.getJSONArray("artists");
                         String artistId = artists.getJSONObject(0).getString("id");
@@ -180,16 +186,16 @@ public class SpotifyManager {
 
                         JSONArray images = album.getJSONArray("images");
                         String albumCoverImageURL = images.getJSONObject(0).getString("url");
-                        Log.d("Album Data", albumType + " " + totalTracks + " " + name + " " + artistId + " " + albumCoverImageURL);
+                        Log.d("Album Data", albumType + " " + totalTracks + " " + trackName + " " + artistId + " " + albumCoverImageURL);
 
                         if (time_range.equals("short_term")) {
-                            topTracksShort.add(new Track(artistId, name, artistName, albumType, albumCoverImageURL));
+                            topTracksShort.add(new Track(artistId, trackName, artistName, albumType, albumCoverImageURL));
                             topTracks = topTracksShort;
                         } else if (time_range.equals("medium_term")) {
-                            topTracksMedium.add(new Track(artistId, name, artistName, albumType, albumCoverImageURL));
+                            topTracksMedium.add(new Track(artistId, trackName, artistName, albumType, albumCoverImageURL));
                             topTracks = topTracksMedium;
                         } else if (time_range.equals("long_term")) {
-                            topTracksLong.add(new Track(artistId, name, artistName, albumType, albumCoverImageURL));
+                            topTracksLong.add(new Track(artistId, trackName, artistName, albumType, albumCoverImageURL));
                             topTracks = topTracksLong;
                         }
                         //topTracks.add(new Track(artistId, name, artistName, albumType, albumCoverImageURL));
