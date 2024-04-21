@@ -56,7 +56,7 @@ public class ForYouActivity extends AppCompatActivity implements StoriesProgress
             public void onComplete(String result) {
                 runOnUiThread(() -> {
                     relatedArtists.clear();
-                    relatedArtists.addAll(SpotifyManager.topArtists); // Assuming similar artists are added here
+                    relatedArtists.addAll(SpotifyManager.topArtists);
                     updateUI();
                 });
             }
@@ -78,9 +78,9 @@ public class ForYouActivity extends AppCompatActivity implements StoriesProgress
         trackName.setText(relatedArtists.get(currentIndex).getName());
         Glide.with(this).load(relatedArtists.get(currentIndex).getArtistImageUrl()).into(imageView);
 
-        storiesProgressView.setStoriesCount(relatedArtists.size()); // Update story count based on related artists
-        storiesProgressView.setStoryDuration(2400L); // Story duration for each artist
-        storiesProgressView.startStories(currentIndex); // Start or restart stories at the current index
+        storiesProgressView.setStoriesCount(relatedArtists.size());
+        storiesProgressView.setStoryDuration(2400L);
+        storiesProgressView.startStories(currentIndex);
     }
 
     @Override

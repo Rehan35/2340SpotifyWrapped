@@ -112,7 +112,6 @@ public class SpotifyLoginActivity extends AppCompatActivity {
 //            return;
 //        }
 //
-//        // Create a request to get the user profile
 //        final Request request = new Request.Builder()
 //                .url("https://api.spotify.com/v1/me")
 //                .addHeader("Authorization", "Bearer " + mAccessToken)

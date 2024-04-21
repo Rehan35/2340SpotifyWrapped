@@ -108,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
 //                                        startActivity(intent);
 //                                        finish();
 //                                    } else {
-//                                        // If sign in fails, display a message to the user.
 //                                        Toast.makeText(MainActivity.this, "Failed to Create Account. Try Again, or try logging in.",
 //                                                Toast.LENGTH_LONG).show();
 //                                    }
@@ -159,7 +158,6 @@ public class MainActivity extends AppCompatActivity {
 //
 //
 //
-//        // Check which request code is present (if any)
 //        if (AUTH_TOKEN_REQUEST_CODE == requestCode) {
 //            if (response == null) {
 //                Log.d("FAILURE", "response is null");
@@ -189,7 +187,6 @@ public class MainActivity extends AppCompatActivity {
 //            return;
 //        }
 //
-//        // Create a request to get the user profile
 //        final Request request = new Request.Builder()
 //                .url("https://api.spotify.com/v1/me")
 //                .addHeader("Authorization", "Bearer " + mAccessToken)
@@ -240,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
 //    private AuthorizationRequest getAuthenticationRequest(AuthorizationResponse.Type type) {
 //        return new AuthorizationRequest.Builder(CLIENT_ID, type, getRedirectUri().toString())
 //                .setShowDialog(false)
-//                .setScopes(new String[] { "user-read-email" }) // <--- Change the scope of your requested token here
+//                .setScopes(new String[] { "user-read-email" })
 //                .setCampaign("your-campaign-token")
 //                .build();
 //    }

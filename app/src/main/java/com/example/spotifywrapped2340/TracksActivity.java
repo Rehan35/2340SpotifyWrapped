@@ -125,7 +125,6 @@ public class TracksActivity extends AppCompatActivity implements StoriesProgress
         timeRangeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                // Handle selection
                 String selectedTimeRange = timeRanges[position];
                 SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
@@ -204,10 +203,10 @@ public class TracksActivity extends AppCompatActivity implements StoriesProgress
 
 //        }
         storiesProgressView = (StoriesProgressView) findViewById(R.id.stories);
-        storiesProgressView.setStoriesCount(10); // <- set stories
-        storiesProgressView.setStoryDuration(2400L); // <- set a story duration
-        storiesProgressView.setStoriesListener(this); // <- set listener
-        storiesProgressView.startStories(); // <- start progress
+        storiesProgressView.setStoriesCount(10);
+        storiesProgressView.setStoryDuration(2400L);
+        storiesProgressView.setStoriesListener(this);
+        storiesProgressView.startStories();
     }
 
     private void playTrack (String trackUri) {
@@ -215,7 +214,6 @@ public class TracksActivity extends AppCompatActivity implements StoriesProgress
             obj.getPlayerApi().play(trackUri);
         } else {
             Log.e("MainActivity", "Cannot play track: Spotify connection not established or disconnected.");
-            // Handle the case where Spotify connection is not established or disconnected
         }
     }
     @Override
@@ -229,7 +227,6 @@ public class TracksActivity extends AppCompatActivity implements StoriesProgress
 
     @Override
     public void onPrev() {
-        // Call when finished revserse animation.
         Toast.makeText(this, "onPrev", Toast.LENGTH_SHORT).show();
     }
 

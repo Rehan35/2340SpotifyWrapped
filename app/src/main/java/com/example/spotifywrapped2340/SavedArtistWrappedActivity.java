@@ -96,16 +96,11 @@ public class SavedArtistWrappedActivity extends AppCompatActivity {
 
 
     private void updateGridLayout(ArrayList<ProfileGridItem> itemsList) {
-        // Clear existing views in GridLayout
         gridLayout.removeAllViews();
-
-        // Add new views based on the data list
         for (ProfileGridItem item : itemsList) {
-            // Inflate a new instance of your grid item layout
             LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
             View itemView = inflater.inflate(R.layout.item_layout, gridLayout, false);
 
-            // Bind data to the layout
             ImageButton imageButton = (ImageButton) itemView.findViewById(R.id.card_image);
             TextView textView = itemView.findViewById(R.id.card_text);
 
@@ -120,8 +115,6 @@ public class SavedArtistWrappedActivity extends AppCompatActivity {
                     finish();
                 }
             });
-
-            // Add the inflated view to the GridLayout
             gridLayout.addView(itemView);
         }
     }

@@ -74,7 +74,6 @@ public class RegisterActivity extends AppCompatActivity {
                                         startActivity(intent);
                                         finish();
                                     } else {
-                                        // If sign in fails, display a message to the user.
                                         Toast.makeText(RegisterActivity.this, "Failed to Create Account. Try Again, or try logging in.",
                                                 Toast.LENGTH_LONG).show();
                                     }

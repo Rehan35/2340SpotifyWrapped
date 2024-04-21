@@ -56,7 +56,6 @@ public class ArtistsActivity extends AppCompatActivity {
         for (int i = 0; i < 5; i++) {
 
             Artist artist = SpotifyManager.topArtists.get(i);
-            // Inflate a new instance of your grid item layout
             LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
             View artistCardView = inflater.inflate(R.layout.artist_card_view, relativelayout, false);
 
@@ -104,11 +103,6 @@ public class ArtistsActivity extends AppCompatActivity {
 
             artistCardView.setLayoutParams(params);
 
-
-
-            // Bind data to the layout
-
-            // Add the inflated view to the GridLayout
             relativelayout.addView(artistCardView);
         }
     }

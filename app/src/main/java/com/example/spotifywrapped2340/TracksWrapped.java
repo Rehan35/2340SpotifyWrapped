@@ -52,13 +52,11 @@ public class TracksWrapped extends AppCompatActivity implements StoriesProgressV
                 obj = spotifyAppRemote;
                 Log.d("MainActivity", "Connected to Spotify!");
 
-                // Now you can use mSpotifyAppRemote to control playback, etc.
             }
 
             @Override
             public void onFailure(Throwable throwable) {
                 Log.e("MainActivity", "Failed to connect to Spotify", throwable);
-                // Handle connection failure
             }
         });
         obj.getPlayerApi().play("spotify:track:4uLU6hMCjMI75M1A2tKUQC");
@@ -82,10 +80,10 @@ public class TracksWrapped extends AppCompatActivity implements StoriesProgressV
 
 //        }
         storiesProgressView = (StoriesProgressView) findViewById(R.id.stories);
-        storiesProgressView.setStoriesCount(10); // <- set stories
-        storiesProgressView.setStoryDuration(2400L); // <- set a story duration
-        storiesProgressView.setStoriesListener(this); // <- set listener
-        storiesProgressView.startStories(); // <- start progress
+        storiesProgressView.setStoriesCount(10);
+        storiesProgressView.setStoryDuration(2400L);
+        storiesProgressView.setStoriesListener(this);
+        storiesProgressView.startStories();
     }
 
 
@@ -100,7 +98,6 @@ public class TracksWrapped extends AppCompatActivity implements StoriesProgressV
 
     @Override
     public void onPrev() {
-        // Call when finished revserse animation.
         Toast.makeText(this, "onPrev", Toast.LENGTH_SHORT).show();
     }
 

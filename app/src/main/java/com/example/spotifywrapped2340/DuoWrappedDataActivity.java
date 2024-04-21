@@ -16,10 +16,10 @@ public class DuoWrappedDataActivity extends AppCompatActivity implements Stories
         super.onCreate(savedInstanceState);
         setContentView(R.layout.duo_wrapped);
         storiesProgressView = (StoriesProgressView) findViewById(R.id.stories);
-        storiesProgressView.setStoriesCount(4); // <- set stories
-        storiesProgressView.setStoryDuration(1200L); // <- set a story duration
-        storiesProgressView.setStoriesListener(this); // <- set listener
-        storiesProgressView.startStories(); // <- start progress
+        storiesProgressView.setStoriesCount(4);
+        storiesProgressView.setStoryDuration(1200L);
+        storiesProgressView.setStoriesListener(this);
+        storiesProgressView.startStories();
     }
 
     @Override
@@ -29,7 +29,6 @@ public class DuoWrappedDataActivity extends AppCompatActivity implements Stories
 
     @Override
     public void onPrev() {
-        // Call when finished revserse animation.
         Toast.makeText(this, "onPrev", Toast.LENGTH_SHORT).show();
     }
 

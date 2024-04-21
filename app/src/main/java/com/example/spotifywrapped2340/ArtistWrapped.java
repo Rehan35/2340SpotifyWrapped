@@ -79,7 +79,6 @@ public class ArtistWrapped extends AppCompatActivity implements StoriesProgressV
         imageView = (ImageView) findViewById(R.id.mainImage);
         Button backButton = (Button) findViewById(R.id.wrapped_return_button);
 
-        //Spinner in ArtistWrapped
         timeRangeSpinner = findViewById(R.id.timeRangeSpinner);
         String[] timeRanges = {"Short Term", "Medium Term", "Long Term"};
 
@@ -95,7 +94,7 @@ public class ArtistWrapped extends AppCompatActivity implements StoriesProgressV
         timeRangeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                // Handle selection
+
                 String selectedTimeRange = timeRanges[position];
                 SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
@@ -171,10 +170,10 @@ public class ArtistWrapped extends AppCompatActivity implements StoriesProgressV
 
 //        }
         storiesProgressView = (StoriesProgressView) findViewById(R.id.stories);
-        storiesProgressView.setStoriesCount(10); // <- set stories
-        storiesProgressView.setStoryDuration(2400L); // <- set a story duration
-        storiesProgressView.setStoriesListener(this); // <- set listener
-        storiesProgressView.startStories(); // <- start progress
+        storiesProgressView.setStoriesCount(10);
+        storiesProgressView.setStoryDuration(2400L);
+        storiesProgressView.setStoriesListener(this);
+        storiesProgressView.startStories();
     }
 
 
@@ -189,7 +188,6 @@ public class ArtistWrapped extends AppCompatActivity implements StoriesProgressV
 
     @Override
     public void onPrev() {
-        // Call when finished revserse animation.
         Toast.makeText(this, "onPrev", Toast.LENGTH_SHORT).show();
     }
 

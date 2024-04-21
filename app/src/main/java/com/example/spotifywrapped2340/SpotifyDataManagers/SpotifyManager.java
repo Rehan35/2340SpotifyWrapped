@@ -65,7 +65,7 @@ public class SpotifyManager {
     private static Map<String, Integer> genreMap;
 
     private SpotifyManager(Context context) {
-        this.context = context.getApplicationContext(); // Use application context
+        this.context = context.getApplicationContext();
     }
 
     public static synchronized SpotifyManager getInstance(Context context) {
@@ -82,7 +82,7 @@ public class SpotifyManager {
     public static AuthorizationRequest getAuthenticationRequest(AuthorizationResponse.Type type) {
         return new AuthorizationRequest.Builder(CLIENT_ID, type, getRedirectUri().toString())
                 .setShowDialog(false)
-                .setScopes(new String[] { "user-read-email", "streaming", "playlist-read-private", "playlist-read-collaborative", "user-follow-read", "user-top-read", "user-library-read", }) // <--- Change the scope of your requested token here
+                .setScopes(new String[] { "user-read-email", "streaming", "playlist-read-private", "playlist-read-collaborative", "user-follow-read", "user-top-read", "user-library-read", })
                 .setCampaign("your-campaign-token")
                 .build();
     }
@@ -177,7 +177,6 @@ public class SpotifyManager {
 
                         JSONObject track = albums.getJSONObject(i);
 
-                        // Retrieve the track name from the track object
                         String trackName = track.getString("name");
 
 
@@ -396,7 +395,7 @@ public class SpotifyManager {
                 .addHeader("Authorization", "Bearer " + mAccessToken)
                 .build();
 
-        cancelCall(); // Optionally cancel previous calls
+        cancelCall();
         mCall = mOkHttpClient.newCall(request);
 
         mCall.enqueue(new Callback() {
@@ -427,7 +426,7 @@ public class SpotifyManager {
                             relatedArtists.add(new Artist(id, name, imageUrl, 0, new ArrayList<>()));
                         }
 
-                        topArtists.addAll(relatedArtists); // Optionally add to your top artists list
+                        topArtists.addAll(relatedArtists);
                         completionListener.onComplete("Fetched related artists successfully!");
                     } else {
                         throw new IOException("Unexpected code " + response);
@@ -447,7 +446,6 @@ public class SpotifyManager {
             return;
         }
 
-        // Create a request to get the user profile
         final Request request = new Request.Builder()
                 .url("https://api.spotify.com/v1/me")
                 .addHeader("Authorization", "Bearer " + mAccessToken)
