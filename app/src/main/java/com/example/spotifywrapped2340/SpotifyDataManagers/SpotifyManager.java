@@ -76,12 +76,29 @@ public class SpotifyManager {
         tracks
     }
 
+
     public ArrayList<Artist> fetchTopTracks(TopItemType type, String time_range, int limit, CompletionListener completionListener) {
         ArrayList<Artist> artistsList = new ArrayList<Artist>();
-        final Request request = new Request.Builder()
-                .url("https://api.spotify.com/v1/me/top/" + type.toString())
-                .addHeader("Authorization", "Bearer " + mAccessToken)
-                .build();
+
+        final Request request;
+
+        if (time_range.equals("Short Term")) {
+            request = new Request.Builder()
+                    .url("https://api.spotify.com/v1/me/top/" + type.toString())
+                    .addHeader("Authorization", "Bearer " + mAccessToken)
+                    .build();
+        } else if (time_range.equals("Medium Term")) {
+            request = new Request.Builder()
+                    .url("https://api.spotify.com/v1/me/top/" + type.toString())
+                    .addHeader("Authorization", "Bearer " + mAccessToken)
+                    .build();
+        } else {
+            request = new Request.Builder()
+                    .url("https://api.spotify.com/v1/me/top/" + type.toString())
+                    .addHeader("Authorization", "Bearer " + mAccessToken)
+                    .build();
+        }
+
 //        cancelCall();
         mCall = mOkHttpClient.newCall(request);
 
