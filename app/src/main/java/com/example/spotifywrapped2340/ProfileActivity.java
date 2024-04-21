@@ -7,12 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.bumptech.glide.Glide;
 import com.example.spotifywrapped2340.ObjectStructures.Track;
 import com.example.spotifywrapped2340.SpotifyDataManagers.SpotifyManager;
 import com.example.spotifywrapped2340.UIHelpers.ProfileGridItem;
@@ -30,6 +33,9 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.spotify.sdk.android.auth.AuthorizationClient;
 import com.spotify.sdk.android.auth.AuthorizationRequest;
 import com.spotify.sdk.android.auth.AuthorizationResponse;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -171,5 +177,24 @@ public class ProfileActivity extends AppCompatActivity {
             SpotifyManager.getInstance(getApplicationContext()).getUserProfile(this);
         }
     }
+    public void updateProfileViews(String jsonData) {
+        try {
+            JSONObject jsonObject = new JSONObject(jsonData);
+            String displayName = jsonObject.getString("display_name");
+            int followersCount = jsonObject.getJSONObject("followers").getInt("total");
+            String profileImageUrl = jsonObject.getJSONArray("images").getJSONObject(0).getString("url");
+
+            TextView displayNameTextView = findViewById(R.id.display_name_text);
+            TextView followersTextView = findViewById(R.id.followers_text);
+            ImageView profileImageView = findViewById(R.id.profile_image_view);
+
+            displayNameTextView.setText(displayName);
+            followersTextView.setText(followersCount + " Followers");
+            Glide.with(this).load(profileImageUrl).into(profileImageView); // Make sure you have Glide added to your project
+        } catch (JSONException e) {
+            Toast.makeText(this, "Failed to parse user data", Toast.LENGTH_LONG).show();
+        }
+    }
+
 
 }

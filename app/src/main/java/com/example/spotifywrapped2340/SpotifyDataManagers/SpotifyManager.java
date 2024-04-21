@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.example.spotifywrapped2340.ObjectStructures.Artist;
 import com.example.spotifywrapped2340.ObjectStructures.SpotifyUser;
 import com.example.spotifywrapped2340.ObjectStructures.Track;
+import com.example.spotifywrapped2340.ProfileActivity;
 import com.example.spotifywrapped2340.util.CompletionListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.spotify.sdk.android.auth.AuthorizationRequest;
@@ -465,9 +466,20 @@ public class SpotifyManager {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                if (!response.isSuccessful()) {
+                    onFailure(call, new IOException("Failed to fetch user profile data"));
+                    return;
+                }
+                String responseString = response.body().string();
+
+                if (activity instanceof ProfileActivity) {
+                    activity.runOnUiThread(() -> {
+                        ((ProfileActivity) activity).updateProfileViews(responseString);
+                    });
+                }
                 try {
 
-                    String responseString = response.body().string();
+                    /*String responseString = response.body().string();*/
 
                     Log.d("Spotify Data", responseString);
 
