@@ -72,9 +72,11 @@ public class ProfileActivity extends AppCompatActivity {
 
         updateGridLayout(gridItems);
 
+        Log.d("LOGGGG", String.valueOf(SpotifyManager.topTracksLong));
         List<String> tracks = new ArrayList<>();
         for (Track track : SpotifyManager.topTracks) {
             tracks.add(track.getTrackName());
+            Log.d("TRACKSS", String.valueOf(tracks));
         }
 
         String result = "";
