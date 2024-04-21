@@ -108,16 +108,26 @@
         android:id="@+id/wrapped_return_button"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="8dp"
         android:backgroundTint="@color/spotifyOffGreen"
         android:text="@string/go_back"
         android:textColor="@color/white"
-        app:cornerRadius="10dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:cornerRadius="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/stories"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/stories" />
+
+    <Button
+        android:id="@+id/save_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="50dp"
+        android:backgroundTint="@color/spotifyGreen"
+        android:text="Save"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/stories" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

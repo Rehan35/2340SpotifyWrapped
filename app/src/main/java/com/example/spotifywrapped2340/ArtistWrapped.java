@@ -16,6 +16,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.bumptech.glide.Glide;
 import com.example.spotifywrapped2340.SpotifyDataManagers.SpotifyManager;
 
+import org.json.JSONException;
+
 import jp.shts.android.storiesprogressview.StoriesProgressView;
 
 
@@ -29,6 +31,12 @@ public class ArtistWrapped extends AppCompatActivity implements StoriesProgressV
     private int currentIndex = 0;
 
     private ImageView imageView;
+
+    public ArtistWrapped(String json) throws JSONException {
+        SpotifyManager.getInstance(ArtistWrapped.this).fetchTopArtists(json);
+    }
+
+    public ArtistWrapped(){}
 
 
     @Override
