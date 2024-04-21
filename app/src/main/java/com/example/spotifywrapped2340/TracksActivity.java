@@ -55,15 +55,17 @@ public class TracksActivity extends AppCompatActivity implements StoriesProgress
                 Log.d("MainActivity", "Connected to Spotify!");
 
                 // Now you can use mSpotifyAppRemote to control playback, etc.
+                playTrack("spotify:track:4uLU6hMCjMI75M1A2tKUQC");
             }
 
             @Override
-            public void onFailure(Throwable throwable) {
-                Log.e("MainActivity", "Failed to connect to Spotify", throwable);
-                // Handle connection failure
+            public void onFailure(Throwable error) {
+                Log.e("MainActivity", "Failed to connect to Spotify", error);
+                // Handle connection failure here
             }
         });
-        obj.getPlayerApi().play("spotify:track:4uLU6hMCjMI75M1A2tKUQC");
+
+
 
         topLabel = (TextView) findViewById(R.id.topLabel);
         topLabel.setText("Top Tracks!");
@@ -89,7 +91,14 @@ public class TracksActivity extends AppCompatActivity implements StoriesProgress
         storiesProgressView.startStories(); // <- start progress
     }
 
-
+    private void playTrack (String trackUri) {
+        if (obj != null && obj.isConnected()) {
+            obj.getPlayerApi().play(trackUri);
+        } else {
+            Log.e("MainActivity", "Cannot play track: Spotify connection not established or disconnected.");
+            // Handle the case where Spotify connection is not established or disconnected
+        }
+    }
     @Override
     public void onNext() {
         currentIndex++;
