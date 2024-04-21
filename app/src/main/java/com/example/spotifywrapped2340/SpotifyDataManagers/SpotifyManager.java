@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.example.spotifywrapped2340.Firebase.FirebaseManager;
 import com.example.spotifywrapped2340.ObjectStructures.Artist;
 import com.example.spotifywrapped2340.ObjectStructures.SpotifyUser;
+import com.example.spotifywrapped2340.ObjectStructures.Track;
 import com.example.spotifywrapped2340.ProfileActivity;
 import com.example.spotifywrapped2340.util.CompletionListener;
 import com.google.firebase.auth.FirebaseAuth;
