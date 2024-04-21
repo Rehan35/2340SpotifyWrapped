@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -21,6 +23,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 
 import com.bumptech.glide.Glide;
 import com.example.spotifywrapped2340.ObjectStructures.Track;
@@ -76,6 +80,38 @@ public class TracksActivity extends AppCompatActivity implements StoriesProgress
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wrapped);
+
+        ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.wrapped);
+        layout.setBackgroundResource(R.drawable.tracks_activity_gradient);
+
+//        layout.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                float x = event.getX();
+//
+//                if (x < layout.getWidth() / 2) {
+//                    // Touched left side of the screen
+//                } else {
+//                    // Touched right side of the screen
+//                }
+//                return true;
+//            }
+//        });
+
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                float x = v.getX();
+
+                if (x < layout.getWidth() / 2) {
+                    // Touched left side of the screen
+                    Log.d("LEFT SIDE TAPPED", "LEFT");
+                } else {
+                    // Touched right side of the screen
+                    Log.d("RIGHT SIDE TAPPED", "RIGHT");
+                }
+            }
+        });
 
         ConnectionParams connectionParams =
                 new ConnectionParams.Builder("3f2eac4dbbb0498194d8b5d955949c1a")
