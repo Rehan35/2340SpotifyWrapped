@@ -10,7 +10,6 @@ import android.widget.Toast;
 import com.example.spotifywrapped2340.Firebase.FirebaseManager;
 import com.example.spotifywrapped2340.ObjectStructures.Artist;
 import com.example.spotifywrapped2340.ObjectStructures.SpotifyUser;
-import com.example.spotifywrapped2340.ObjectStructures.Track;
 import com.example.spotifywrapped2340.ProfileActivity;
 import com.example.spotifywrapped2340.util.CompletionListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,6 +27,7 @@ import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -80,7 +80,7 @@ public class SpotifyManager {
         tracks
     }
 
-    public static ArrayList<Artist> fetchTopTracks(TopItemType type, String time_range, int limit, CompletionListener listener) {
+    public ArrayList<Artist> fetchTopTracks(TopItemType type, String time_range, int limit) {
         ArrayList<Artist> artistsList = new ArrayList<Artist>();
         final Request request = new Request.Builder()
                 .url("https://api.spotify.com/v1/me/top/" + type.toString())
@@ -103,7 +103,7 @@ public class SpotifyManager {
 
                     String responseString = response.body().string();
 
-                    Log.d("Spotify Data Tracks", responseString);
+                    Log.d("Spotify Data", responseString);
 
                     JsonReader reader = new JsonReader(responseString);
 
@@ -134,7 +134,7 @@ public class SpotifyManager {
         return new ArrayList<>();
     }
 
-    public static void fetchTopArtists(TopItemType type, String time_range, int limit, CompletionListener listener) {
+    public void fetchTopArtists(TopItemType type, String time_range, int limit, CompletionListener listener) {
         Log.d("HELLO", "WORLD");
         final Request request = new Request.Builder()
                 .url("https://api.spotify.com/v1/me/top/" + type.toString())
@@ -222,7 +222,7 @@ public class SpotifyManager {
         });
     }
 
-    public static void getUserProfile(Activity activity) {
+    public void getUserProfile(Activity activity) {
         if (mAccessToken == null) {
             Toast.makeText(context, "You need to get an access token first!", Toast.LENGTH_SHORT).show();
             return;
@@ -255,13 +255,33 @@ public class SpotifyManager {
 
                     SpotifyUser user = new SpotifyUser();
 
-                    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+//                    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+//
+//                    user.populateUserData(responseString, mAuth.getUid());
+//                    FirebaseManager.getInstance(context).populateUserSpotifyData(user);
 
-                    user.populateUserData(responseString, mAuth.getUid());
-                    FirebaseManager.getInstance(context).populateUserSpotifyData(user);
+                    fetchTopArtists(SpotifyManager.TopItemType.artists, "", 20, new CompletionListener() {
+                        @Override
+                        public void onComplete(String result) throws IOException {
+                            Log.d("Size!!", topArtists.get(0).getName());
+                            String name = topArtists.get(0).getName();
+                            String url = topArtists.get(0).getArtistImageUrl();
+                            Log.d("URL!!", url);
 
-                    Intent intent = new Intent(context, ProfileActivity.class);
-                    startActivity(intent, activity);
+//                            Intent intent = new Intent(context, ProfileActivity.class);
+//                            startActivity(intent, activity);
+
+                            /*Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);*/
+                            /*startActivity(intent);*/
+                            /*finish();*/
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+
+                        }
+                    });
+
                 } catch (Exception e) {
                     Log.d("JSON", "Failed to parse data: " + e);
 //                    Toast.makeText(SpotifyLoginActivity.this, "Failed to parse data, watch Logcat for more details",

@@ -26,6 +26,10 @@ import com.google.ai.client.generativeai.type.Content;
 import com.google.ai.client.generativeai.type.GenerateContentResponse;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.spotify.sdk.android.auth.AuthorizationClient;
+import com.spotify.sdk.android.auth.AuthorizationRequest;
+import com.spotify.sdk.android.auth.AuthorizationResponse;
+
 import java.util.concurrent.Executor;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -38,46 +42,14 @@ public class ProfileActivity extends AppCompatActivity {
         super.onStart();
         //SpotifyManager manager = SpotifyManager.getInstance(getApplicationContext());
         //manager.fetchTopArtists(SpotifyManager.TopItemType.artists, "medium_range", 10);
-        SpotifyManager.getInstance(getApplicationContext()).fetchTopArtists(SpotifyManager.TopItemType.artists, "", 20, new CompletionListener() {
-            @Override
-            public void onComplete(String result) throws IOException {
-                Log.d("Size!!", SpotifyManager.getInstance(getApplicationContext()).topArtists.get(0).getName());
-                String name = SpotifyManager.getInstance(getApplicationContext()).topArtists.get(0).getName();
-                String url = SpotifyManager.getInstance(getApplicationContext()).topArtists.get(0).getArtistImageUrl();
-                Log.d("URL!!", url);
-                /*Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);*/
-                /*startActivity(intent);*/
-                /*finish();*/
-            }
 
-            @Override
-            public void onError(Exception e) {
-
-            }
-        });
-
-        SpotifyManager.getInstance(getApplicationContext()).fetchTopTracks(SpotifyManager.TopItemType.tracks, "", 20, new CompletionListener() {
-            @Override
-            public void onComplete(String result) throws IOException {
-//                Log.d("Size!!", SpotifyManager.getInstance(getApplicationContext()).topTracks.get(0).getName());
-//                String name = SpotifyManager.getInstance(getApplicationContext()).topTracks.get(0).getName();
-//                String url = SpotifyManager.getInstance(getApplicationContext()).topArtists.get(0).getArtistImageUrl();
-//                Log.d("URL!!", url);
-                /*Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);*/
-                /*startActivity(intent);*/
-                /*finish();*/
-            }
-
-            @Override
-            public void onError(Exception e) {
-
-            }});
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_activity);
+        getToken();
 
         ImageButton settingsButton = findViewById(R.id.settings_button);
         settingsButton.setOnClickListener(v -> {
@@ -152,6 +124,32 @@ public class ProfileActivity extends AppCompatActivity {
 
             // Add the inflated view to the GridLayout
             gridLayout.addView(itemView);
+        }
+    }
+
+    public void getToken() {
+        final AuthorizationRequest request = SpotifyManager.getAuthenticationRequest(AuthorizationResponse.Type.TOKEN);
+        try {
+            AuthorizationClient.openLoginActivity(ProfileActivity.this, 0, request);
+        } catch (Exception e) {
+            Log.d("TOKEN ERROR", e.toString());
+        }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        final AuthorizationResponse response = AuthorizationClient.getResponse(resultCode, data);
+
+        if (response == null) {
+            Log.d("TOKEN FAILURE", "response is null");
+        } else if (response.getAccessToken() == null) {
+            Log.d("TOKEN FAILURE", "access token is null");
+        } else {
+//            Intent intent = new Intent(SpotifyLoginActivity.this, SpotifyLoginActivity.class);
+//            startActivity(intent);
+            Log.d("TOKEN SUCCESS", response.getAccessToken());
+            SpotifyManager.setAccessToken(response.getAccessToken());
+            SpotifyManager.getInstance(getApplicationContext()).getUserProfile(this);
         }
     }
 
