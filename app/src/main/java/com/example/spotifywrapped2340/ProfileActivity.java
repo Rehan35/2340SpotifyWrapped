@@ -197,4 +197,35 @@ public class ProfileActivity extends AppCompatActivity {
             });
         }
     }
+    public void updateProfileViews(String jsonData) {
+        try {
+            JSONObject jsonObject = new JSONObject(jsonData);
+            String displayName = jsonObject.getString("display_name");
+            int followersCount = jsonObject.getJSONObject("followers").getInt("total");
+            String profileImageUrl = null;
+
+            JSONArray imagesArray = jsonObject.getJSONArray("images");
+            if (imagesArray.length() > 0) {
+                profileImageUrl = imagesArray.getJSONObject(0).getString("url");
+            }
+
+            TextView displayNameTextView = findViewById(R.id.display_name_text);
+            TextView followersTextView = findViewById(R.id.followers_text);
+            ImageView profileImageView = findViewById(R.id.profile_image_view);
+
+            displayNameTextView.setText(displayName);
+            followersTextView.setText(followersCount + " Followers");
+
+            if (profileImageUrl != null) {
+                Glide.with(this).load(profileImageUrl).into(profileImageView);
+            } else {
+                Glide.with(this).load(R.drawable.default_profile).into(profileImageView);
+            }
+        } catch (JSONException e) {
+            Toast.makeText(this, "Failed to parse user data", Toast.LENGTH_LONG).show();
+        }
+    }
+
+
+
 }
