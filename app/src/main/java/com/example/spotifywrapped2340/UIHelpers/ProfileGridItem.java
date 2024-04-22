@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class ProfileGridItem {
     private String text;
     private int imageResource;
+    private String imageUrl;
     private Activity activity;
 
     public ProfileGridItem(String text, int imageResource) {
@@ -18,6 +19,17 @@ public class ProfileGridItem {
         this.text = text;
         this.imageResource = imageResource;
         this.activity = activity;
+    }
+
+    public ProfileGridItem(String text, int imageResource, AppCompatActivity activity, String imageUrl) {
+        this.text = text;
+        this.imageResource = imageResource;
+        this.activity = activity;
+        this.imageUrl = imageUrl;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
     }
 
     public String getText() {

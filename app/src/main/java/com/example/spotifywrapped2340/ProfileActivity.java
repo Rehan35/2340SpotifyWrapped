@@ -80,6 +80,8 @@ public class ProfileActivity extends AppCompatActivity {
 
                 if (SpotifyManager.user.getProfileImageUrl() != null) {
                     Glide.with(ProfileActivity.this).load(SpotifyManager.user.getProfileImageUrl()).into(profileImageView);
+                } else {
+                    Glide.with(this).load(R.drawable.default_profile).into(profileImageView);
                 }
             });
         }
@@ -95,8 +97,8 @@ public class ProfileActivity extends AppCompatActivity {
                 new ProfileGridItem("Tracks", R.drawable.tracks_placeholder_card_image, new TracksActivity()),
                 new ProfileGridItem("Artists", R.drawable.artists_placeholder_card, new ArtistWrapped()),
                 new ProfileGridItem("Play a Game", R.drawable.playlists_placeholder_card, new GameActivity()),
-                new ProfileGridItem("Past Tracks", R.drawable.spotify_wrapped_login_logo, new SavedTrackWrappedActivity()),
                 new ProfileGridItem("For You", R.drawable.foryou_placeholder_card, new ForYouTracksActivity()),
+                new ProfileGridItem("Past Tracks", R.drawable.spotify_wrapped_login_logo, new SavedTrackWrappedActivity()),
                 new ProfileGridItem("Past Artist", R.drawable.browse_placeholder_card, new SavedArtistWrappedActivity())
         };
 
@@ -149,24 +151,31 @@ public class ProfileActivity extends AppCompatActivity {
         gridLayout.removeAllViews();
 
         for (ProfileGridItem item : itemsList) {
-            LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
-            View itemView = inflater.inflate(R.layout.item_layout, gridLayout, false);
+            runOnUiThread(() -> {
+                LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
+                View itemView = inflater.inflate(R.layout.item_layout, gridLayout, false);
 
-            ImageButton imageButton = (ImageButton) itemView.findViewById(R.id.card_image);
-            TextView textView = itemView.findViewById(R.id.card_text);
+                ImageButton imageButton = (ImageButton) itemView.findViewById(R.id.card_image);
+                TextView textView = itemView.findViewById(R.id.card_text);
 
-            imageButton.setImageDrawable(ContextCompat.getDrawable(this, item.getImageResource()));
-            textView.setText(item.getText());
-
-            imageButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getApplicationContext(), item.getActivity().getClass());
-                    startActivity(intent);
-                    finish();
+                if (item.getImageUrl() != null) {
+                    Glide.with(ProfileActivity.this).load(item.getImageUrl()).into(imageButton);
+                } else {
+                    imageButton.setImageDrawable(ContextCompat.getDrawable(this, item.getImageResource()));
                 }
+//                imageButton.setImageDrawable(ContextCompat.getDrawable(this, item.getImageResource()));
+                textView.setText(item.getText());
+
+                imageButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getApplicationContext(), item.getActivity().getClass());
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+                gridLayout.addView(itemView);
             });
-            gridLayout.addView(itemView);
         }
     }
 
@@ -206,8 +215,54 @@ public class ProfileActivity extends AppCompatActivity {
 
                         if (SpotifyManager.user.getProfileImageUrl() != null) {
                             Glide.with(ProfileActivity.this).load(SpotifyManager.user.getProfileImageUrl()).into(profileImageView);
+                        } else {
+                            Glide.with(ProfileActivity.this).load(R.drawable.default_profile).into(profileImageView);
                         }
                     });
+
+                    String[] timeRanges = new String[]{"short_term", "medium_term", "long_term"};
+
+                    for (String timeRange : timeRanges) {
+                        SpotifyManager.getInstance(getApplicationContext()).fetchTopArtists(SpotifyManager.TopItemType.artists, timeRange, 20, new CompletionListener() {
+                            @Override
+                            public void onComplete(String result) throws IOException {
+                                Log.d("Size!! " + timeRange, timeRange);
+                                Log.d("URL!! " + timeRange, timeRange + " URL");
+                            }
+
+                            @Override
+                            public void onError(Exception e) {
+
+                            }
+                        });
+                    }
+
+                    for (String timeRange : timeRanges) {
+                        SpotifyManager.getInstance(getApplicationContext()).fetchTopTracks(SpotifyManager.TopItemType.tracks, timeRange, 20, new CompletionListener() {
+                            @Override
+                            public void onComplete(String result) throws IOException {
+                                Log.d("Size!!", timeRange);
+                                if (timeRange.equals("long_term")) {
+                                    SpotifyManager.getInstance(getApplicationContext()).forYouArtists(new CompletionListener() {
+                                        @Override
+                                        public void onComplete(String result) throws IOException {
+
+                                        }
+
+                                        @Override
+                                        public void onError(Exception e) {
+
+                                        }
+                                    });
+                                }
+                            }
+
+                            @Override
+                            public void onError(Exception e) {
+
+                            }});
+                    }
+
                 }
 
                 @Override

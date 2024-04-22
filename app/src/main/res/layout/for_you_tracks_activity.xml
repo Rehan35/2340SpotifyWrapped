@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/artists_activity_gradient"
+    android:background="@drawable/for_you_activity_gradient"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/tracks_relative_layout"
     tools:context=".ForYouTracksActivity"

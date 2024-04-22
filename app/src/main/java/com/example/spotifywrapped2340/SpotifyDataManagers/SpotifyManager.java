@@ -208,7 +208,7 @@ public class SpotifyManager {
                     completionListener.onComplete("Fetched tracks successfully");
 
                 } catch (Exception e) {
-                    Log.d("JSON", "Failed to parse data: " + e);
+                    Log.d("JSON TRACKS", "Failed to parse data: " + e);
                 }
             }
         });
@@ -368,7 +368,7 @@ public class SpotifyManager {
                     }
                     listener.onComplete("Task completed successfully!");
                 } catch (Exception e) {
-                    Log.d("JSON", "Failed to parse data: " + e);
+                    Log.d("JSON ARTISTS", "Failed to parse data: " + e);
                 }
             }
         });
@@ -506,7 +506,7 @@ public class SpotifyManager {
                     completionListener.onComplete("Fetched tracks successfully");
 
                 } catch (Exception e) {
-                    Log.d("JSON", "Failed to parse data: " + e);
+                    Log.d("JSON FOR YOU", "Failed to parse data: " + e);
                 }
             }
         });
@@ -561,51 +561,51 @@ public class SpotifyManager {
 //
                     user.populateUserData(responseString, mAuth.getUid(), loadedUserCompletion);
 
-                    String[] timeRanges = new String[]{"short_term", "medium_term", "long_term"};
-
-                    for (String timeRange : timeRanges) {
-                        fetchTopArtists(SpotifyManager.TopItemType.artists, timeRange, 20, new CompletionListener() {
-                            @Override
-                            public void onComplete(String result) throws IOException {
-                                Log.d("Size!! " + timeRange, timeRange);
-                                Log.d("URL!! " + timeRange, timeRange + " URL");
-                            }
-
-                            @Override
-                            public void onError(Exception e) {
-
-                            }
-                        });
-                    }
-
-                    for (String timeRange : timeRanges) {
-                        fetchTopTracks(SpotifyManager.TopItemType.tracks, timeRange, 20, new CompletionListener() {
-                            @Override
-                            public void onComplete(String result) throws IOException {
-                                Log.d("Size!!", timeRange);
-                                if (timeRange.equals("long_term")) {
-                                    forYouArtists(new CompletionListener() {
-                                        @Override
-                                        public void onComplete(String result) throws IOException {
-                                            Log.d("SUCCESS", "Size: " + forYouTracks.size());
-                                        }
-
-                                        @Override
-                                        public void onError(Exception e) {
-
-                                        }
-                                    });
-                                }
-                            }
-
-                            @Override
-                            public void onError(Exception e) {
-
-                            }});
-                    }
+//                    String[] timeRanges = new String[]{"short_term", "medium_term", "long_term"};
+//
+//                    for (String timeRange : timeRanges) {
+//                        fetchTopArtists(SpotifyManager.TopItemType.artists, timeRange, 20, new CompletionListener() {
+//                            @Override
+//                            public void onComplete(String result) throws IOException {
+//                                Log.d("Size!! " + timeRange, timeRange);
+//                                Log.d("URL!! " + timeRange, timeRange + " URL");
+//                            }
+//
+//                            @Override
+//                            public void onError(Exception e) {
+//
+//                            }
+//                        });
+//                    }
+//
+//                    for (String timeRange : timeRanges) {
+//                        fetchTopTracks(SpotifyManager.TopItemType.tracks, timeRange, 20, new CompletionListener() {
+//                            @Override
+//                            public void onComplete(String result) throws IOException {
+//                                Log.d("Size!!", timeRange);
+//                                if (timeRange.equals("long_term")) {
+//                                    forYouArtists(new CompletionListener() {
+//                                        @Override
+//                                        public void onComplete(String result) throws IOException {
+//                                            Log.d("SUCCESS", "Size: " + forYouTracks.size());
+//                                        }
+//
+//                                        @Override
+//                                        public void onError(Exception e) {
+//
+//                                        }
+//                                    });
+//                                }
+//                            }
+//
+//                            @Override
+//                            public void onError(Exception e) {
+//
+//                            }});
+//                    }
 
                 } catch (Exception e) {
-                    Log.d("JSON", "Failed to parse data: " + e);
+                    Log.d("JSON USER PROFILE", "Failed to parse data: " + e);
 //                    Toast.makeText(SpotifyLoginActivity.this, "Failed to parse data, watch Logcat for more details",
 //                            Toast.LENGTH_SHORT).show();
                 }
