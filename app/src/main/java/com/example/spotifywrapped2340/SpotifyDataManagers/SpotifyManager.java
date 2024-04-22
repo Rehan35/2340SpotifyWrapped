@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -441,13 +442,22 @@ public class SpotifyManager {
     public ArrayList<Artist> forYouArtists(CompletionListener completionListener) {
         String seedArtists = "";
         String seedTracks = "";
+        String seedGenres = "";
+
+        String[] potentialGenres = new String[]{"acoustic", "afrobeat", "alt-rock", "alternative", "ambient", "anime", "black-metal", "bluegrass", "blues", "bossanova", "brazil", "breakbeat", "british", "cantopop", "chicago-house", "children", "chill", "classical", "club", "comedy", "country", "dance", "dancehall", "death-metal", "deep-house", "detroit-techno", "disco", "disney", "drum-and-bass", "dub", "dubstep", "edm", "electro", "electronic", "emo", "folk", "forro", "french", "funk", "garage", "german", "gospel", "goth", "grindcore", "groove", "grunge", "guitar", "happy", "hard-rock", "hardcore", "hardstyle", "heavy-metal", "hip-hop", "holidays", "honky-tonk", "house", "idm", "indian", "indie", "indie-pop", "industrial", "iranian", "j-dance", "j-idol", "j-pop", "j-rock", "jazz", "k-pop", "kids", "latin", "latino", "malay", "mandopop", "metal", "metal-misc", "metalcore", "minimal-techno", "movies", "mpb", "new-age", "new-release", "opera", "pagode", "party", "philippines-opm", "piano", "pop", "pop-film", "post-dubstep", "power-pop", "progressive-house", "psych-rock", "punk", "punk-rock", "r-n-b", "rainy-day", "reggae", "reggaeton", "road-trip", "rock", "rock-n-roll", "rockabilly", "romance", "sad", "salsa", "samba", "sertanejo", "show-tunes", "singer-songwriter", "ska", "sleep", "songwriter", "soul", "soundtracks", "spanish", "study", "summer", "swedish", "synth-pop", "tango", "techno", "trance", "trip-hop", "turkish", "work-out", "world-music"};
 
         for (int i = 0; i < 2; i++) {
             seedArtists += (i != 0 ? "%2C" : "") + topArtists.get(i).getArtistId();
             seedTracks += (i != 0 ? "%2C" : "") + topTracks.get(i).getTrackId();
         }
 
-        String requestUrl = "https://api.spotify.com/v1/recommendations?" + "seed_artists=" + seedArtists + "&seed_genres=" + "hip-hop" + "&seed_tracks=" + seedTracks;
+        Random random = new Random();
+        for (int i = 0; i < 1; i++) {
+            seedGenres += "%2C" + potentialGenres[random.nextInt(potentialGenres.length)];
+        }
+        seedGenres = seedGenres.substring(3);
+
+        String requestUrl = "https://api.spotify.com/v1/recommendations?" + "seed_artists=" + seedArtists + "&seed_genres=" + seedGenres + "&seed_tracks=" + seedTracks;
         Log.d("REQUEST URL", requestUrl);
 
         Request request = new Request.Builder()
@@ -532,8 +542,12 @@ public class SpotifyManager {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.d("HTTP", "Failed to fetch data: " + e);
-                Toast.makeText(context, "Failed to fetch data, watch Logcat for more details",
+                if (activity instanceof ProfileActivity) {
+                    activity.runOnUiThread(() -> {
+                        Toast.makeText(context, "Failed to fetch data, watch Logcat for more details",
                         Toast.LENGTH_SHORT).show();
+                    });
+                }
             }
 
             @Override

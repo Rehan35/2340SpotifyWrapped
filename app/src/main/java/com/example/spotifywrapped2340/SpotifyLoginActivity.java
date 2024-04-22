@@ -96,9 +96,50 @@ public class SpotifyLoginActivity extends AppCompatActivity {
             SpotifyManager.getInstance(getApplicationContext()).getUserProfile(this, new CompletionListener() {
                 @Override
                 public void onComplete(String result) throws IOException {
-                    Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-                    startActivity(intent);
-                    finish();
+                    String[] timeRanges = new String[]{"short_term", "medium_term", "long_term"};
+
+                    for (String timeRange : timeRanges) {
+                        SpotifyManager.getInstance(getApplicationContext()).fetchTopArtists(SpotifyManager.TopItemType.artists, timeRange, 20, new CompletionListener() {
+                            @Override
+                            public void onComplete(String result) throws IOException {
+                                Log.d("Size!! " + timeRange, timeRange);
+                                Log.d("URL!! " + timeRange, timeRange + " URL");
+                            }
+
+                            @Override
+                            public void onError(Exception e) {
+
+                            }
+                        });
+                    }
+
+                    for (String timeRange : timeRanges) {
+                        SpotifyManager.getInstance(getApplicationContext()).fetchTopTracks(SpotifyManager.TopItemType.tracks, timeRange, 20, new CompletionListener() {
+                            @Override
+                            public void onComplete(String result) throws IOException {
+                                Log.d("Size!!", timeRange);
+                                if (timeRange.equals("long_term")) {
+                                    SpotifyManager.getInstance(getApplicationContext()).forYouArtists(new CompletionListener() {
+                                        @Override
+                                        public void onComplete(String result) throws IOException {
+                                            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+
+                                        @Override
+                                        public void onError(Exception e) {
+
+                                        }
+                                    });
+                                }
+                            }
+
+                            @Override
+                            public void onError(Exception e) {
+
+                            }});
+                    }
                 }
 
                 @Override
