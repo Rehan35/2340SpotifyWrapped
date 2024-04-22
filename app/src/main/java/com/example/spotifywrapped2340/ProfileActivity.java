@@ -81,7 +81,7 @@ public class ProfileActivity extends AppCompatActivity {
                 if (SpotifyManager.user.getProfileImageUrl() != null) {
                     Glide.with(ProfileActivity.this).load(SpotifyManager.user.getProfileImageUrl()).into(profileImageView);
                 } else {
-                    Glide.with(this).load(R.drawable.default_profile).into(profileImageView);
+                    profileImageView.setImageResource(R.drawable.default_profile);
                 }
             });
         }
@@ -216,7 +216,7 @@ public class ProfileActivity extends AppCompatActivity {
                         if (SpotifyManager.user.getProfileImageUrl() != null) {
                             Glide.with(ProfileActivity.this).load(SpotifyManager.user.getProfileImageUrl()).into(profileImageView);
                         } else {
-                            Glide.with(ProfileActivity.this).load(R.drawable.default_profile).into(profileImageView);
+                            profileImageView.setImageResource(R.drawable.default_profile);
                         }
                     });
 
